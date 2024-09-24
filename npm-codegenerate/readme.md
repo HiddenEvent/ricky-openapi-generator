@@ -9,7 +9,7 @@ openapi-generator-cli version
 
 #### 생성 스크립트
 ```shell
-openapi-generator-cli generate -g typescript-axios -i ./openapi-spec/pet-store.json -c ./openapi.json -o ./output
+openapi-generator-cli generate -g typescript-axios -i ./openapi-spec/pet-store.json -c ./openapi.json -o ./generate
 ```
 ```text
 -g : generator를 설정하는 옵션이고 typescript-axios를 선택하였다.
