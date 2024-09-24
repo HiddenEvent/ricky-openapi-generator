@@ -47,7 +47,8 @@ openApiGenerate {
     modelFilesConstrainedTo.set(listOf(""))
     supportingFilesConstrainedTo.set(listOf("ApiUtil.java"))
     configOptions.set(mapOf(
-        "delegatePattern" to "true",
+        "interfaceOnly" to "true",
+//        "delegatePattern" to "true",
         "title" to "address",
         "useTags" to "true",
         "dateLibrary" to "java8",
@@ -57,6 +58,8 @@ openApiGenerate {
         "useJakartaEe" to "true"
     ))
     validateSpec.set(true)
+
+//    templateDir.set(layout.projectDirectory.dir("src/main/resources/templates").asFile.absolutePath)
 }
 
 tasks.named("openApiGenerate") {
