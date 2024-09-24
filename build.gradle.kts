@@ -38,6 +38,7 @@ tasks.register("downloadOpenApiSpec") {
 
 openApiGenerate {
     generatorName.set("kotlin-spring")
+//    inputSpec.set(file("npm-codegenerate/openapi-spec/pet-store.json").absolutePath)
     inputSpec.set(layout.buildDirectory.file("openapi-spec.json").get().asFile.absolutePath)
     outputDir.set(layout.buildDirectory.dir("openapi-kotlin").get().asFile.absolutePath)
     apiPackage.set("com.example.api")
