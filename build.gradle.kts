@@ -29,7 +29,7 @@ kotlin {
 
 tasks.register("downloadOpenApiSpec") {
     doLast {
-        val specUri = URI("http://localhost:9200/v3/api-docs/1.%EC%A0%84%EC%B2%B4").toURL()
+        val specUri = URI("http://localhost:9200/v3/api-docs/1-all").toURL()
         val specPath = layout.buildDirectory.file("openapi-spec.json").get().asFile.toPath()
         specPath.parent.createDirectories()
         specPath.writeText(specUri.readText())

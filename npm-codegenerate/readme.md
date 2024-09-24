@@ -28,5 +28,5 @@ npm run template
 # 파일을 이용하여 생성
 openapi-generator-cli generate -g typescript-axios -i openapi-spec/ricky-oas.json -o ./generate -t ./mustaches -c ./openapi.json
 # url 이용하여 생성
-openapi-generator-cli generate -g typescript-axios -i http://localhost:9200/v3/api-docs/1_all -o ./generate -t ./mustaches -c ./openapi.json
+openapi-generator-cli generate -g typescript-axios -i http://localhost:9200/v3/api-docs/1-all -o ./generate -t ./mustaches -c ./openapi.json
 ```
