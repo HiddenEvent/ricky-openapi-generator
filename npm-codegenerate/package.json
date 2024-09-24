@@ -1,0 +1,13 @@
+{
+  "name": "npm-codegenerate",
+  "version": "1.0.0",
+  "description": "openapi-generate 사용",
+  "main": "index.js",
+  "scripts": {
+    "generate:default": "openapi-generator-cli generate -g typescript-axios -i openapi-spec/ricky-oas.json -o ./generate -c ./config.yaml",
+    "generate": "openapi-generator-cli generate -g typescript-axios -i openapi-spec/ricky-oas.json -o ./generate -t ./mustaches -c ./openapi.json",
+    "template": "openapi-generator-cli author template -g typescript-axios -o ./mustaches"
+  },
+  "author": "",
+  "license": "ISC"
+}
