@@ -46,20 +46,20 @@ openApiGenerate {
     apiFilesConstrainedTo.set(listOf(""))
     modelFilesConstrainedTo.set(listOf(""))
     supportingFilesConstrainedTo.set(listOf("ApiUtil.java"))
-    configOptions.set(mapOf(
-        "interfaceOnly" to "true",
+    configOptions.set(
+        mapOf(
+            "interfaceOnly" to "true",
+            "useTags" to "true",
+            "useSpringBoot3" to "true",
+            "serviceInterface" to "true",
 //        "delegatePattern" to "true",
-        "title" to "address",
-        "useTags" to "true",
-        "dateLibrary" to "java8",
-        "java8" to "true",
-        "hideGenerationTimestamp" to "true",
-        "useSpringBoot3" to "true",
-        "useJakartaEe" to "true"
-    ))
+        )
+    )
     validateSpec.set(true)
-
-//    templateDir.set(layout.projectDirectory.dir("src/main/resources/templates").asFile.absolutePath)
+    // 커스텀 템플릿 디렉토리 설정
+    templateDir.set(layout.projectDirectory.dir("src/main/resources/templates").asFile.absolutePath)
+    // 추가적인 설정: 서비스 파일 생성
+    additionalProperties.set(mapOf("serviceFile" to "true"))
 }
 
 tasks.named("openApiGenerate") {
