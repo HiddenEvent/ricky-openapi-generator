@@ -6,5 +6,6 @@
   "withNodeImports": false,
   "useSingleRequestParameter": true,
   "enumNameSuffix": "",
-  "withSeparateModelsAndApi": true
+  "withSeparateModelsAndApi": true,
+  "apiNameSuffix": "Api"
 }

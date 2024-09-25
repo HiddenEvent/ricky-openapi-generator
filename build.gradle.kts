@@ -38,11 +38,14 @@ tasks.register("downloadOpenApiSpec") {
 
 openApiGenerate {
     generatorName.set("kotlin-spring")
-//    inputSpec.set(file("npm-codegenerate/openapi-spec/pet-store.json").absolutePath)
+//    inputSpec.set(file("npm-codegenerate/openapi-spec/pet-store.json").absolutePath) /* 스팩 직접 파일 지정 시 사용 */
     inputSpec.set(layout.buildDirectory.file("openapi-spec.json").get().asFile.absolutePath)
     outputDir.set(layout.buildDirectory.dir("openapi-kotlin").get().asFile.absolutePath)
+
+//    apiNameSuffix.set("Facade") /*[kotlin-spring] 생성 타입의 경우 사용 사용불가*/
     apiPackage.set("com.example.api")
     modelPackage.set("com.example.model")
+
     apiFilesConstrainedTo.set(listOf(""))
     modelFilesConstrainedTo.set(listOf(""))
     supportingFilesConstrainedTo.set(listOf("ApiUtil.java"))
@@ -56,10 +59,9 @@ openApiGenerate {
         )
     )
     validateSpec.set(true)
+
     // 커스텀 템플릿 디렉토리 설정
     templateDir.set(layout.projectDirectory.dir("src/main/resources/templates").asFile.absolutePath)
-    // 추가적인 설정: 서비스 파일 생성
-    additionalProperties.set(mapOf("serviceFile" to "true"))
 }
 
 tasks.named("openApiGenerate") {
