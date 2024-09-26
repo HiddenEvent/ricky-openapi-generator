@@ -68,7 +68,7 @@ import kotlin.collections.Map
 <%={{ }}=%>
 {{/useRequestMappingOnInterface}}
 {{#operations}}
-interface {{classname}} {
+interface {{classname}}Facade {
 {{#isDelegate}}
 
     fun getDelegate(): {{classname}}Delegate{{^skipDefaultDelegateInterface}} = object: {{classname}}Delegate {}{{/skipDefaultDelegateInterface}}

@@ -27,6 +27,13 @@ kotlin {
     jvmToolchain(21)
 }
 
+
+val apiPackageName by extra("com.example.api")
+val apiPackagePath by extra("com/example/api")
+val modelPackageName by extra("com.example.model")
+val modelPackagePath by extra("com/example/model")
+
+
 tasks.register("downloadOpenApiSpec") {
     doFirst {
         println("downloadOpenApiSpec .................")
@@ -41,7 +48,7 @@ tasks.register("downloadOpenApiSpec") {
 tasks.register<Copy>("moveServiceFiles") {
     println("moveServiceFiles .................")
     // 생성된 파일의 원본 경로
-    val sourceDir = "${layout.buildDirectory.get().asFile}/openapi-kotlin/src/main/kotlin/org/openapitools/api"
+    val sourceDir = "${layout.buildDirectory.get().asFile}/openapi-kotlin/src/main/kotlin/${apiPackagePath}"
 
     // 이동할 대상 경로
     val serviceTargetDir = "${layout.buildDirectory.get().asFile}/ricky-generator/service"
@@ -55,33 +62,31 @@ tasks.register<Copy>("moveServiceFiles") {
         val serviceCount = files?.count { it.name.endsWith("Service.kt") } ?: 0
         println("Found $serviceCount service files to move.")
     }
-
-    doLast {
-        println("Service files moved to the service directory.")
-    }
 }
 
 // 'Facade'로 끝나는 파일을 복사하는 작업
 tasks.register<Copy>("moveFacadeFiles") {
     println("moveFacadeFiles .................")
     // 생성된 파일의 원본 경로
-    val sourceDir = "${layout.buildDirectory.get().asFile}/openapi-kotlin/src/main/kotlin/org/openapitools/api"
+    val sourceDir = "${layout.buildDirectory.get().asFile}/openapi-kotlin/src/main/kotlin/${apiPackagePath}"
 
     // 이동할 대상 경로
     val facadeTargetDir = "${layout.buildDirectory.get().asFile}/ricky-generator/facade"
 
     from(sourceDir) // 복사할 파일의 원본 경로
     into(facadeTargetDir) // 복사할 대상 경로
-    include("**/*Facade.kt") // 'Facade'로 끝나는 모든 Kotlin 파일 패턴
+    exclude("**/*Service.kt") // 'Service.kt'로 끝나는 모든  파일 제외
+
+    // 파일 이름 변경
+    eachFile {
+        this.name = this.name.replace(".kt", "Facade.kt")
+        println(this.name)
+    }
 
     doFirst {
         val files = File(sourceDir).listFiles()
         val facadeCount = files?.count { it.name.endsWith("Facade.kt") } ?: 0
         println("Found $facadeCount facade files to move.")
-    }
-
-    doLast {
-        println("Facade files moved to the facade directory.")
     }
 }
 
@@ -97,19 +102,21 @@ openApiGenerate {
 //    inputSpec.set(file("npm-codegenerate/openapi-spec/pet-store.json").absolutePath) /* 스팩 직접 파일 지정 시 사용 */
     inputSpec.set(layout.buildDirectory.file("openapi-spec.json").get().asFile.absolutePath)
     outputDir.set(layout.buildDirectory.dir("openapi-kotlin").get().asFile.absolutePath)
-//    apiPackage.set("com.example.api")
-//    modelPackage.set("com.example.model")
+    apiPackage.set("com.example.api")
+    modelPackage.set("com.example.model")
     apiFilesConstrainedTo.set(listOf(""))
     modelFilesConstrainedTo.set(listOf(""))
     supportingFilesConstrainedTo.set(listOf("ApiUtil.java"))
+    generateApiTests.set(true)
     validateSpec.set(true)
     configOptions.set(
         mapOf(
-            "apiSuffix" to "Facade",
+            "apiSuffix" to "",
             "useTags" to "true",
             "useSpringBoot3" to "true",
             "interfaceOnly" to "true",
             "serviceInterface" to "true",
+//            "delegatePattern" to "true",
         )
     )
 
