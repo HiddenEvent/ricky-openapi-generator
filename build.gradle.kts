@@ -102,8 +102,6 @@ openApiGenerate {
 //    inputSpec.set(file("npm-codegenerate/openapi-spec/pet-store.json").absolutePath) /* 스팩 직접 파일 지정 시 사용 */
     inputSpec.set(layout.buildDirectory.file("openapi-spec.json").get().asFile.absolutePath)
     outputDir.set(layout.buildDirectory.dir("openapi-kotlin").get().asFile.absolutePath)
-    apiPackage.set("com.example.api")
-    modelPackage.set("com.example.model")
     apiFilesConstrainedTo.set(listOf(""))
     modelFilesConstrainedTo.set(listOf(""))
     supportingFilesConstrainedTo.set(listOf("ApiUtil.java"))
@@ -112,10 +110,17 @@ openApiGenerate {
     configOptions.set(
         mapOf(
             "apiSuffix" to "",
+            "basePackage" to "com.example",
+            "apiPackage" to "com.example.api",
+            "modelPackage" to "com.example.model",
+            "sortModelPropertiesByRequiredFlag" to "true",
+            "sortParamsByRequiredFlag" to "true",
+
             "useTags" to "true",
             "useSpringBoot3" to "true",
             "interfaceOnly" to "true",
             "serviceInterface" to "true",
+
 //            "delegatePattern" to "true",
         )
     )
