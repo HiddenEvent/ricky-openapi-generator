@@ -1,37 +1,18 @@
-/**
- * {{{description}}}
-{{#vars}}
- * @param {{name}} {{{description}}}
-{{/vars}}
- */{{#discriminator}}
-{{>typeInfoAnnotation}}{{/discriminator}}
-{{#additionalModelTypeAnnotations}}
-    {{{.}}}
-{{/additionalModelTypeAnnotations}}
-{{#vendorExtensions.x-class-extra-annotation}}
-{{{.}}}
-{{/vendorExtensions.x-class-extra-annotation}}
-{{#discriminator}}interface {{classname}}{{/discriminator}}{{^discriminator}}{{#hasVars}}data {{/hasVars}}class {{classname}}(
+{{^discriminator}}{{#hasVars}}data {{/hasVars}}class {{classname}}(
 {{#requiredVars}}
+    {{{name}}}
 {{>dataClassReqVar}}{{^-last}},
 {{/-last}}{{/requiredVars}}{{#hasRequired}}{{#hasOptional}},
 {{/hasOptional}}{{/hasRequired}}{{#optionalVars}}{{>dataClassOptVar}}{{^-last}},
 {{/-last}}{{/optionalVars}}
-    ) {{/discriminator}}{{#parent}}: {{{.}}}{{#serializableModel}}, Serializable{{/serializableModel}}{{/parent}}{{^parent}}{{#serializableModel}}: Serializable{{/serializableModel}}{{/parent}}{
-{{#discriminator}}
-    {{#requiredVars}}
-        {{>interfaceReqVar}}
-    {{/requiredVars}}
-    {{#optionalVars}}
-        {{>interfaceOptVar}}
-    {{/optionalVars}}
-{{/discriminator}}
+) {{/discriminator}}: AuditDomain() {
+
 {{#hasEnums}}{{#vars}}{{#isEnum}}
     /**
     * {{{description}}}
     * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
     */
-    enum class {{{nameInPascalCase}}}(@get:JsonValue val value: {{#isContainer}}{{#items}}{{{dataType}}}{{/items}}{{/isContainer}}{{^isContainer}}{{{dataType}}}{{/isContainer}}) {
+    enum class {{{nameInPascalCase}}}(val value: {{#isContainer}}{{#items}}{{{dataType}}}{{/items}}{{/isContainer}}{{^isContainer}}{{{dataType}}}{{/isContainer}}) {
 {{#allowableValues}}{{#enumVars}}
         {{{name}}}({{{value}}}){{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}};
 
