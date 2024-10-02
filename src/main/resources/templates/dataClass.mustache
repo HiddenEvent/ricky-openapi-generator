@@ -1,8 +1,9 @@
 {{^discriminator}}{{#hasVars}}data {{/hasVars}}class {{classname}}(
 {{#requiredVars}}
-    {{{name}}}
+    {{ignoredFields}}
 {{>dataClassReqVar}}{{^-last}},
-{{/-last}}{{/requiredVars}}{{#hasRequired}}{{#hasOptional}},
+{{/-last}}{{/requiredVars}}
+{{#hasRequired}}{{#hasOptional}},
 {{/hasOptional}}{{/hasRequired}}{{#optionalVars}}{{>dataClassOptVar}}{{^-last}},
 {{/-last}}{{/optionalVars}}
 ) {{/discriminator}}: AuditDomain() {

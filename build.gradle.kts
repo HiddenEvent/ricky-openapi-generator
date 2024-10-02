@@ -124,6 +124,11 @@ openApiGenerate {
 //            "delegatePattern" to "true",
         )
     )
+    additionalProperties.set(
+        mapOf(
+            "ignoredFields" to "id,creatorId"
+        )
+    )
 
     // 커스텀 템플릿 디렉토리 설정
     templateDir.set(layout.projectDirectory.dir("src/main/resources/templates").asFile.absolutePath)
