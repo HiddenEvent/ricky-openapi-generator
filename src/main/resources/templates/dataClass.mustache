@@ -1,16 +1,15 @@
 {{^discriminator}}{{#hasVars}}data {{/hasVars}}class {{classname}}(
 {{#requiredVars}}
-  {{#vendorExtensions.x-is-inherit}}
-    // This property is inherited
-    데이터 확인용: {{{datatype}}} {{{name}}};
-  {{/vendorExtensions.x-is-inherit}}
-    {{isInherited}}
-    {{ignoredFields}}
-{{>dataClassReqVar}}{{^-last}},
-{{/-last}}{{/requiredVars}}
-{{#hasRequired}}{{#hasOptional}},
-{{/hasOptional}}{{/hasRequired}}{{#optionalVars}}{{>dataClassOptVar}}{{^-last}},
-{{/-last}}{{/optionalVars}}
+    {{^vendorExtensions.x-custom-properties.isInherit}}{{>dataClassReqVar}}{{^-last}},
+    {{/-last}}
+    {{/vendorExtensions.x-custom-properties.isInherit}}
+{{/requiredVars}}
+{{#optionalVars}}
+    {{^vendorExtensions.x-custom-properties.isInherit}}{{>dataClassOptVar}}{{^-last}},
+    {{/-last}}
+    {{/vendorExtensions.x-custom-properties.isInherit}}
+{{/optionalVars}}
+
 ) {{/discriminator}}: AuditDomain() {
 
 {{#hasEnums}}{{#vars}}{{#isEnum}}
