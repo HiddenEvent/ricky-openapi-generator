@@ -35,7 +35,7 @@ openApiGenerate {
     inputSpec.set(layout.buildDirectory.file("openapi-spec.json").get().asFile.absolutePath)
     outputDir.set(layout.buildDirectory.dir("openapi-kotlin").get().asFile.absolutePath)
     apiFilesConstrainedTo.set(listOf(""))
-    modelFilesConstrainedTo.set(listOf("Board"))
+    modelFilesConstrainedTo.set(listOf("User","Board","BoardComment"))
     supportingFilesConstrainedTo.set(listOf("ApiUtil.java"))
     generateApiTests.set(true)
     validateSpec.set(true)

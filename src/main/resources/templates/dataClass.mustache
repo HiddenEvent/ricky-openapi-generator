@@ -1,38 +1,11 @@
-{{^discriminator}}{{#hasVars}}data {{/hasVars}}class {{classname}}(
+internal class {{classname}}Entity(domain: {{classname}}) : AuditEntity<{{classname}}>(domain) {
 {{#requiredVars}}
-    {{^vendorExtensions.x-custom-properties.isInherit}}{{>dataClassReqVar}}{{^-last}},
-    {{/-last}}
+    {{^vendorExtensions.x-custom-properties.isInherit}}{{>dataClassReqVar}}
     {{/vendorExtensions.x-custom-properties.isInherit}}
 {{/requiredVars}}
 {{#optionalVars}}
-    {{^vendorExtensions.x-custom-properties.isInherit}}{{>dataClassOptVar}}{{^-last}},
-    {{/-last}}
+    {{^vendorExtensions.x-custom-properties.isInherit}}{{>dataClassOptVar}}
     {{/vendorExtensions.x-custom-properties.isInherit}}
 {{/optionalVars}}
 
-) {{/discriminator}}: AuditDomain() {
-
-{{#hasEnums}}{{#vars}}{{#isEnum}}
-    /**
-    * {{{description}}}
-    * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
-    */
-    enum class {{{nameInPascalCase}}}(val value: {{#isContainer}}{{#items}}{{{dataType}}}{{/items}}{{/isContainer}}{{^isContainer}}{{{dataType}}}{{/isContainer}}) {
-{{#allowableValues}}{{#enumVars}}
-        {{{name}}}({{{value}}}){{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}};
-
-        companion object {
-            @JvmStatic
-            @JsonCreator
-            fun forValue(value: {{#isContainer}}{{#items}}{{{dataType}}}{{/items}}{{/isContainer}}{{^isContainer}}{{{dataType}}}{{/isContainer}}): {{{nameInPascalCase}}} {
-                return values().first{it -> it.value == value}
-            }
-        }
-    }
-{{/isEnum}}{{/vars}}{{/hasEnums}}
-{{#serializableModel}}
-    companion object {
-        private const val serialVersionUID: kotlin.Long = 1
-    }
-{{/serializableModel}}
 }

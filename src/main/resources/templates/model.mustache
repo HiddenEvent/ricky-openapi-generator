@@ -1,12 +1,7 @@
-package {{package}}
+package {{basePackage}}.storage.entity
 
-import java.util.Objects
-{{#swagger2AnnotationLibrary}}
-import io.swagger.v3.oas.annotations.media.Schema
-{{/swagger2AnnotationLibrary}}
-{{#swagger1AnnotationLibrary}}
-import io.swagger.annotations.ApiModelProperty
-{{/swagger1AnnotationLibrary}}
+import org.hibernate.annotations.Comment
+import jakarta.persistence.*
 
 {{#models}}
 {{#model}}
