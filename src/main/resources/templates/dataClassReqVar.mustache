@@ -1,13 +1,7 @@
 
-    @Comment("{{{description}}}"){{!
-    }}{{#isContainer}}{{^isPrimitiveType}}{{^isEnum}}
-    @OneToMany(mappedBy = "", cascade = [CascadeType.ALL]){{/isEnum}}{{/isPrimitiveType}}{{/isContainer}}{{!
-    }}{{#isModel}}
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "{{{name}}}_id"){{/isModel}}
+    @Comment("{{{description}}}")
     {{>modelMutable}} {{{name}}}: {{!
     }}{{#isEnum}}{{!
         }}{{#isArray}}{{baseType}}<{{/isArray}}{{classname}}.{{{nameInPascalCase}}}{{#isArray}}>{{/isArray}}{{!
     }}{{/isEnum}}{{!
-
     }}{{^isEnum}}{{{dataType}}}{{/isEnum}} = domain.{{{name}}}
