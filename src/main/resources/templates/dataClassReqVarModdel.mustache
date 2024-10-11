@@ -1,9 +1,4 @@
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "{{{name}}}_id")
-    {{>modelMutable}} {{{name}}}: {{!
-    }}{{#isEnum}}{{!
-        }}{{#isArray}}{{baseType}}<{{/isArray}}{{classname}}.{{{nameInPascalCase}}}{{#isArray}}>{{/isArray}}{{!
-    }}{{/isEnum}}{{!
-
-    }}{{^isEnum}}{{{dataType}}}{{/isEnum}} = domain.{{{name}}}
+    {{>modelMutable}} {{{name}}}: {{{dataType}}}Entity? = domain.{{{name}}}?.let { {{{dataType}}}Entity(it) }

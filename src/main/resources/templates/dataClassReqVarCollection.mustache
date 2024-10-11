@@ -1,9 +1,3 @@
 
-    Comment("{{{description}}}")
     @OneToMany(mappedBy = "", cascade = [CascadeType.ALL])
-    {{>modelMutable}} {{{name}}}: {{!
-    }}{{#isEnum}}{{!
-        }}{{#isArray}}{{baseType}}<{{/isArray}}{{classname}}.{{{nameInPascalCase}}}{{#isArray}}>{{/isArray}}{{!
-    }}{{/isEnum}}{{!
-
-    }}{{^isEnum}}{{{dataType}}}{{/isEnum}} = domain.{{{name}}}
+    {{>modelMutable}} {{{name}}}: {{{baseType}}}<{{{complexType}}}Entity> = domain.{{{name}}}.map { {{{complexType}}}Entity(it) }.toList()
