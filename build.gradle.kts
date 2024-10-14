@@ -31,20 +31,18 @@ kotlin {
 apply(from = "gradle/openapi.gradle.kts")
 
 openApiGenerate {
-    generatorName.set("kotlin-spring")
+    generatorName.set("kotlin")
     inputSpec.set(layout.buildDirectory.file("openapi-spec.json").get().asFile.absolutePath)
     outputDir.set(layout.buildDirectory.dir("openapi-kotlin").get().asFile.absolutePath)
     apiFilesConstrainedTo.set(listOf(""))
     modelFilesConstrainedTo.set(listOf("User","Board","BoardComment"))
     supportingFilesConstrainedTo.set(listOf("ApiUtil.java"))
-    generateApiTests.set(true)
+    apiPackage.set("me.ricky.rest")
+    modelPackage.set("me.ricky.storage")
     validateSpec.set(true)
     configOptions.set(
         mapOf(
             "apiSuffix" to "",
-            "basePackage" to "com.example",
-            "apiPackage" to "com.example.api",
-            "modelPackage" to "com.example.model",
             "sortModelPropertiesByRequiredFlag" to "true",
             "sortParamsByRequiredFlag" to "true",
             "useTags" to "true",
