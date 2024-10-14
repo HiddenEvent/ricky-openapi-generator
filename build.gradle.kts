@@ -30,6 +30,9 @@ kotlin {
 
 apply(from = "gradle/openapi.gradle.kts")
 
+val apiPackageName by extra("me.ricky.api")
+val modelPackageName by extra("me.ricky.storage")
+
 openApiGenerate {
     generatorName.set("kotlin")
     inputSpec.set(layout.buildDirectory.file("openapi-spec.json").get().asFile.absolutePath)
@@ -37,8 +40,8 @@ openApiGenerate {
     apiFilesConstrainedTo.set(listOf(""))
     modelFilesConstrainedTo.set(listOf("User","Board","BoardComment"))
     supportingFilesConstrainedTo.set(listOf("ApiUtil.java"))
-    apiPackage.set("me.ricky.rest")
-    modelPackage.set("me.ricky.storage")
+    apiPackage.set(apiPackageName)
+    modelPackage.set(modelPackageName)
     validateSpec.set(true)
     configOptions.set(
         mapOf(

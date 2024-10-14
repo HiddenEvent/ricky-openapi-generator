@@ -4,10 +4,8 @@ import kotlin.io.path.writeText
 import org.gradle.api.tasks.Copy
 import java.io.File
 
-val apiPackageName by extra("com.example.api")
-val apiPackagePath by extra("com/example/api")
-val modelPackageName by extra("com.example.model")
-val modelPackagePath by extra("com/example/model")
+val apiPackagePath by extra("me/ricky/api")
+val modelPackagePath by extra("me/ricky/storage")
 
 tasks.register("downloadOpenApiSpec") {
     doFirst {
