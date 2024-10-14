@@ -17,50 +17,61 @@ tasks.register("downloadOpenApiSpec") {
     }
 }
 
-tasks.register<Copy>("moveServiceFiles") {
-    println("moveServiceFiles .................")
+tasks.register<Copy>("moveServiceImpleFiles") {
+    println("convertService .................")
     val sourceDir = "${layout.buildDirectory.get().asFile}/openapi-kotlin/src/main/kotlin/${apiPackagePath}"
-    val serviceTargetDir = "${layout.buildDirectory.get().asFile}/ricky-generator/service"
+    val targetDir = "${layout.buildDirectory.get().asFile}/ricky-generator/aggregate/service"
 
     from(sourceDir)
-    into(serviceTargetDir)
-    include("**/*Service.kt")
+    into(targetDir)
+    include("**/*ServiceImpl.kt")
 
-    doFirst {
-        val files = File(sourceDir).listFiles()
-        val serviceCount = files?.count { it.name.endsWith("Service.kt") } ?: 0
-        println("Found $serviceCount service files to move.")
+    eachFile {
+        this.name = this.name.replace("ServiceImpl.kt", "Service.kt")
+        println(this.name)
     }
 }
 
-tasks.register<Copy>("moveFacadeFiles") {
-    println("moveFacadeFiles .................")
+tasks.register<Copy>("moveServiceFiles") {
+    println("convertStoreFiles .................")
     val sourceDir = "${layout.buildDirectory.get().asFile}/openapi-kotlin/src/main/kotlin/${apiPackagePath}"
-    val facadeTargetDir = "${layout.buildDirectory.get().asFile}/ricky-generator/facade"
+    val targetDir = "${layout.buildDirectory.get().asFile}/ricky-generator/aggregate/store"
 
     from(sourceDir)
-    into(facadeTargetDir)
-    exclude("**/*Service.kt")
+    into(targetDir)
+    include("**/*Service.kt")
 
     eachFile {
-        this.name = this.name.replace(".kt", "Facade.kt")
+        this.name = this.name.replace("Service.kt", "Store.kt")
         println(this.name)
     }
+}
 
-    doFirst {
-        val files = File(sourceDir).listFiles()
-        val facadeCount = files?.count { it.name.endsWith("Facade.kt") } ?: 0
-        println("Found $facadeCount facade files to move.")
+tasks.register<Copy>("moveControllerFiles") {
+    println("moveJpaStoreFiles .................")
+    val sourceDir = "${layout.buildDirectory.get().asFile}/openapi-kotlin/src/main/kotlin/${apiPackagePath}"
+    val targetDir = "${layout.buildDirectory.get().asFile}/ricky-generator/storage/store"
+
+    from(sourceDir)
+    into(targetDir)
+    include("**/*Controller.kt")
+
+    eachFile {
+        this.name = this.name.replace("Controller.kt", "JpaStore.kt")
+        println(this.name)
     }
 }
 
 tasks.register<Copy>("moveEntityFiles") {
     println("moveEntityFiles .................")
     val sourceDir = "${layout.buildDirectory.get().asFile}/openapi-kotlin/src/main/kotlin/${modelPackagePath}"
-    val entityTargetDir = "${layout.buildDirectory.get().asFile}/ricky-generator/entity"
+    val targetDir = "${layout.buildDirectory.get().asFile}/ricky-generator/storage/entity"
 
     from(sourceDir)
-    into(entityTargetDir)
+    into(targetDir)
+    exclude("**/*Qdo.kt")
+    exclude("**/OffsetElements*")
+    exclude("**/ExceptionBody.kt")
 
     eachFile {
         this.name = this.name.replace(".kt", "Entity.kt")
@@ -68,7 +79,21 @@ tasks.register<Copy>("moveEntityFiles") {
     }
 }
 
+tasks.register<Copy>("moveTestFiles") {
+    println("통합 테스트 파일 변경 .................")
+    val sourceDir = "${layout.buildDirectory.get().asFile}/openapi-kotlin/src/test/kotlin/${apiPackagePath}"
+    val targetDir = "${layout.buildDirectory.get().asFile}/ricky-generator/test"
+
+    from(sourceDir)
+    into(targetDir)
+
+    eachFile {
+        this.name = this.name.replace("Test.kt", "IT.kt")
+        println(this.name)
+    }
+}
+
 tasks.named("openApiGenerate") {
     dependsOn("downloadOpenApiSpec")
-    finalizedBy("moveServiceFiles", "moveFacadeFiles", "moveEntityFiles")
+    finalizedBy("moveServiceImpleFiles", "moveServiceFiles", "moveControllerFiles", "moveEntityFiles", "moveTestFiles")
 }

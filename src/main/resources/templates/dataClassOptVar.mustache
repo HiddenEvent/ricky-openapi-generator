@@ -1,5 +1,6 @@
 
-    @Comment("{{{description}}}")
+    @Comment("{{{description}}}"){{#isEnum}}
+    @Enumerated(EnumType.STRING){{/isEnum}}
     {{>modelMutable}} {{{name}}}: {{!
     }}{{#isEnum}}{{!
         }}{{#isArray}}{{baseType}}<{{/isArray}}{{classname}}.{{{nameInPascalCase}}}{{#isArray}}>{{/isArray}}{{!
