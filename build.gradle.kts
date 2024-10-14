@@ -1,7 +1,3 @@
-import java.net.URI
-import kotlin.io.path.createDirectories
-import kotlin.io.path.writeText
-
 plugins {
     kotlin("jvm") version "2.0.20"
     id("org.openapi.generator") version "7.8.0"
@@ -30,22 +26,25 @@ kotlin {
 
 apply(from = "gradle/openapi.gradle.kts")
 
-val apiPackageName by extra("me.ricky.api")
-val modelPackageName by extra("me.ricky.storage")
+val basePackageName by extra("me.ricky")
+val apiPackageName by extra("${basePackageName}.api")
+val modelPackageName by extra("${basePackageName}.storage")
 
 openApiGenerate {
-    generatorName.set("kotlin")
+    generatorName.set("kotlin-spring")
     inputSpec.set(layout.buildDirectory.file("openapi-spec.json").get().asFile.absolutePath)
     outputDir.set(layout.buildDirectory.dir("openapi-kotlin").get().asFile.absolutePath)
     apiFilesConstrainedTo.set(listOf(""))
     modelFilesConstrainedTo.set(listOf("User","Board","BoardComment"))
     supportingFilesConstrainedTo.set(listOf("ApiUtil.java"))
-    apiPackage.set(apiPackageName)
-    modelPackage.set(modelPackageName)
+    generateApiTests.set(true)
     validateSpec.set(true)
     configOptions.set(
         mapOf(
             "apiSuffix" to "",
+            "basePackage" to basePackageName,
+            "apiPackage" to apiPackageName,
+            "modelPackage" to modelPackageName,
             "sortModelPropertiesByRequiredFlag" to "true",
             "sortParamsByRequiredFlag" to "true",
             "useTags" to "true",
