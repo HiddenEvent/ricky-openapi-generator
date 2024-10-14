@@ -56,7 +56,21 @@ tasks.register<Copy>("moveFacadeFiles") {
     }
 }
 
+tasks.register<Copy>("moveEntityFiles") {
+    println("moveEntityFiles .................")
+    val sourceDir = "${layout.buildDirectory.get().asFile}/openapi-kotlin/src/main/kotlin/${modelPackagePath}"
+    val entityTargetDir = "${layout.buildDirectory.get().asFile}/ricky-generator/entity"
+
+    from(sourceDir)
+    into(entityTargetDir)
+
+    eachFile {
+        this.name = this.name.replace(".kt", "Entity.kt")
+        println(this.name)
+    }
+}
+
 tasks.named("openApiGenerate") {
     dependsOn("downloadOpenApiSpec")
-    finalizedBy("moveServiceFiles", "moveFacadeFiles")
+    finalizedBy("moveServiceFiles", "moveFacadeFiles", "moveEntityFiles")
 }
