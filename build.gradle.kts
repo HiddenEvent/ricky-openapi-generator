@@ -34,8 +34,8 @@ openApiGenerate {
     generatorName.set("kotlin-spring")
     inputSpec.set(layout.buildDirectory.file("openapi-spec.json").get().asFile.absolutePath)
     outputDir.set(layout.buildDirectory.dir("openapi-kotlin").get().asFile.absolutePath)
-    apiFilesConstrainedTo.set(listOf("Board"))
-    modelFilesConstrainedTo.set(listOf("User", "Board", "BoardComment"))
+//    apiFilesConstrainedTo.set(listOf("Board"))
+//    modelFilesConstrainedTo.set(listOf("User", "Board", "BoardComment"))
 //    supportingFilesConstrainedTo.set(listOf("ApiUtil.java"))
     validateSpec.set(true)
     configOptions.set(
@@ -48,7 +48,6 @@ openApiGenerate {
             "useTags" to "true",
 //            "sortModelPropertiesByRequiredFlag" to "true",
 //            "sortParamsByRequiredFlag" to "true",
-//            "delegatePattern" to "true",
             "serviceImplementation" to "true",
         )
     )
