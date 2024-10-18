@@ -39,6 +39,8 @@ tasks.register<Copy>("moveServiceFiles") {
 
     from(sourceDir)
     into(targetDir)
+    exclude("**/*PublicService.kt")
+    exclude("**/*AdminService.kt")
     include("**/*Service.kt")
 
     eachFile {
