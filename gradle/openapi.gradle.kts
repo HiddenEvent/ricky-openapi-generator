@@ -56,6 +56,8 @@ tasks.register<Copy>("moveControllerFiles") {
 
     from(sourceDir)
     into(targetDir)
+    exclude("**/*PublicController.kt")
+    exclude("**/*AdminController.kt")
     include("**/*Controller.kt")
 
     eachFile {
@@ -71,6 +73,7 @@ tasks.register<Copy>("moveEntityFiles") {
 
     from(sourceDir)
     into(targetDir)
+    exclude("JwtToken.kt")
     exclude("**/*Qdo.kt")
     exclude("**/OffsetElements*")
     exclude("**/ExceptionBody.kt")
