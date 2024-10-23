@@ -1,6 +1,6 @@
 @Comment("{{description}}")
 @Entity
-@Table(name = "{{{name}}}")
+@Table(name = "{{#lambda.snakecase}}{{{name}}}{{/lambda.snakecase}}")
 internal class {{classname}}Entity(domain: {{classname}}) : AuditEntity<{{classname}}>(domain) {
     /* 필수 필드 부분 */{{!
 }}{{#requiredVars}}{{^vendorExtensions.x-custom-properties.isInherit}}{{^isModel}}{{^isContainer}}{{!

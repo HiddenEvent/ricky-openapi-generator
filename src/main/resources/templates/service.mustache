@@ -6,10 +6,9 @@ package {{package}}
 import kotlinx.coroutines.flow.Flow
 {{/reactive}}
 interface {{classname}}Store {
-    fun save(domain: {{classname}}): {{classname}}
-    fun read(id: UUID): {{classname}}
-    fun readAll(): List<{{classname}}>
-    fun delete(id: UUID): Boolean
+    fun save{{classname}}(domain: {{classname}}): {{classname}}
+    fun read{{classname}}(id: UUID): {{classname}}
+    fun delete{{classname}}(id: UUID): Boolean
     fun readPage(request: {{classname}}ReadPageQdo): OffsetElements<{{classname}}>
 }
 

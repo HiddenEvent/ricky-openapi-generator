@@ -24,6 +24,8 @@ tasks.register<Copy>("moveServiceImpleFiles") {
 
     from(sourceDir)
     into(targetDir)
+    exclude("**/*PublicServiceImpl.kt")
+    exclude("**/*AdminServiceImpl.kt")
     include("**/*ServiceImpl.kt")
 
     eachFile {
