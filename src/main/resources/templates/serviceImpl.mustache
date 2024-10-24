@@ -1,12 +1,12 @@
-package {{package}}
+package {{basePackage}}.aggregate.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}.service
 
-{{#imports}}import {{basePackage}}.spec.domains{{classname}}
-{{/imports}}
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
+import java.util.*
 
 @Service
 class {{classname}}Service(
-    private val {{#lambda.camelcase}}{{{classname}}}Store{{/lambda.camelcase}}: {{classname}}Store
+    private val {{#lambda.camelcase}}{{{classname}}}Store{{/lambda.camelcase}}: {{classname}}Store,
 ) {
 
     @Transactional
@@ -17,8 +17,8 @@ class {{classname}}Service(
 
     @Transactional
     fun modify{{{classname}}}(id: UUID, request: {{{classname}}}ModifyQdo): {{{classname}}} {
-        val {{#lambda.camelcase}}{{{classname}}}{{/lambda.camelcase}} = {{#lambda.camelcase}}{{{classname}}}{{/lambda.camelcase}}Store.read(id)
-        {{#lambda.camelcase}}{{{classname}}}{{/lambda.camelcase}}.modify(request)
+        val {{#lambda.camelcase}}{{{classname}}}{{/lambda.camelcase}} = {{#lambda.camelcase}}{{{classname}}}{{/lambda.camelcase}}Store.read{{classname}}(id)
+        {{#lambda.camelcase}}{{{classname}}}{{/lambda.camelcase}}.modify{{classname}}(request)
         return {{#lambda.camelcase}}{{{classname}}}{{/lambda.camelcase}}Store.save{{{classname}}}({{#lambda.camelcase}}{{{classname}}}{{/lambda.camelcase}})
     }
 

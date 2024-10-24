@@ -1,10 +1,5 @@
-package {{package}}
+package {{basePackage}}.aggregate.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}.store
 
-{{#imports}}import {{import}}
-{{/imports}}
-{{#reactive}}
-import kotlinx.coroutines.flow.Flow
-{{/reactive}}
 interface {{classname}}Store {
     fun save{{classname}}(domain: {{classname}}): {{classname}}
     fun read{{classname}}(id: UUID): {{classname}}
