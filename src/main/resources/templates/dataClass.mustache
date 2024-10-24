@@ -1,4 +1,4 @@
-@Comment("{{title}}")
+@Comment("{{description}}")
 @Entity
 @Table(name = "{{#lambda.snakecase}}{{{name}}}{{/lambda.snakecase}}")
 internal class {{classname}}Entity(domain: {{classname}}) : AuditEntity<{{classname}}>(domain) {

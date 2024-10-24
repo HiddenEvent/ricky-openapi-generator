@@ -1,67 +1,34 @@
-package {{package}}
+package {{basePackage}}.storage.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}.store
 
-{{#imports}}import {{import}}
-{{/imports}}
-{{#swagger2AnnotationLibrary}}
-import io.swagger.v3.oas.annotations.*
-import io.swagger.v3.oas.annotations.enums.*
-import io.swagger.v3.oas.annotations.media.*
-import io.swagger.v3.oas.annotations.responses.*
-import io.swagger.v3.oas.annotations.security.*
-{{/swagger2AnnotationLibrary}}
-{{#swagger1AnnotationLibrary}}
-import io.swagger.annotations.Api
-import io.swagger.annotations.ApiOperation
-import io.swagger.annotations.ApiParam
-import io.swagger.annotations.ApiResponse
-import io.swagger.annotations.ApiResponses
-import io.swagger.annotations.Authorization
-import io.swagger.annotations.AuthorizationScope
-{{/swagger1AnnotationLibrary}}
-import org.springframework.http.HttpStatus
-import org.springframework.http.MediaType
-import org.springframework.http.ResponseEntity
+import org.springframework.stereotype.Repository
+import com.querydsl.jpa.impl.JPAQueryFactory
+import java.util.*
 
-import org.springframework.web.bind.annotation.*
-import org.springframework.web.context.request.NativeWebRequest
-import org.springframework.beans.factory.annotation.Autowired
-import kotlin.collections.List
-import kotlin.collections.Map
+@Repository
+internal class {{classname}}JpaStore(
+    private val queryFactory: JPAQueryFactory,
+    private val {{#lambda.camelcase}}{{{classname}}}{{/lambda.camelcase}}Repository: {{classname}}Repository,
+) : {{{classname}}}Store {
+    private val Q_{{#lambda.uppercase}}{{{classname}}}{{/lambda.uppercase}} = Q{{classname}}Entity.{{#lambda.camelcase}}{{{classname}}}{{/lambda.camelcase}}Entity
 
-@RestController{{#beanQualifiers}}("{{package}}.{{classname}}Controller"){{/beanQualifiers}}
-{{#operations}}
-class {{classname}}Controller({{#serviceInterface}}@Autowired(required = true) val service: {{classname}}Service{{/serviceInterface}}) {
-{{#operation}}
-
-    {{#swagger2AnnotationLibrary}}
-    @Operation(
-        summary = "{{{summary}}}",
-        operationId = "{{{operationId}}}",
-        description = """{{{unescapedNotes}}}""",
-        responses = [{{#responses}}
-            ApiResponse(responseCode = "{{{code}}}", description = "{{{message}}}"{{#baseType}}, content = [Content({{#isArray}}array = ArraySchema({{/isArray}}schema = Schema(implementation = {{{baseType}}}::class)){{#isArray}}){{/isArray}}]{{/baseType}}){{^-last}},{{/-last}}{{/responses}} ]{{#hasAuthMethods}},
-        security = [ {{#authMethods}}SecurityRequirement(name = "{{name}}"{{#isOAuth}}, scopes = [ {{#scopes}}"{{scope}}"{{^-last}}, {{/-last}}{{/scopes}} ]{{/isOAuth}}){{^-last}},{{/-last}}{{/authMethods}} ]{{/hasAuthMethods}}
-    ){{/swagger2AnnotationLibrary}}{{#swagger1AnnotationLibrary}}
-    @ApiOperation(
-        value = "{{{summary}}}",
-        nickname = "{{{operationId}}}",
-        notes = "{{{notes}}}"{{#returnBaseType}},
-        response = {{{.}}}::class{{/returnBaseType}}{{#returnContainer}},
-        responseContainer = "{{{.}}}"{{/returnContainer}}{{#hasAuthMethods}},
-        authorizations = [{{#authMethods}}Authorization(value = "{{name}}"{{#isOAuth}}, scopes = [{{#scopes}}AuthorizationScope(scope = "{{scope}}", description = "{{description}}"){{^-last}}, {{/-last}}{{/scopes}}]{{/isOAuth}}){{^-last}}, {{/-last}}{{/authMethods}}]{{/hasAuthMethods}})
-    @ApiResponses(
-        value = [{{#responses}}ApiResponse(code = {{{code}}}, message = "{{{message}}}"{{#baseType}}, response = {{{.}}}::class{{/baseType}}{{#containerType}}, responseContainer = "{{{.}}}"{{/containerType}}){{^-last}},{{/-last}}{{/responses}}]){{/swagger1AnnotationLibrary}}
-    @RequestMapping(
-        method = [RequestMethod.{{httpMethod}}],
-        value = ["{{#lambdaEscapeInNormalString}}{{path}}{{/lambdaEscapeInNormalString}}"]{{#singleContentTypes}}{{#hasProduces}},
-        produces = [{{#vendorExtensions.x-accepts}}"{{.}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-accepts}}]{{/hasProduces}}{{#hasConsumes}},
-        consumes = "{{{vendorExtensions.x-content-type}}}"{{/hasConsumes}}{{/singleContentTypes}}{{^singleContentTypes}}{{#hasProduces}},
-        produces = [{{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}}]{{/hasProduces}}{{#hasConsumes}},
-        consumes = [{{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}}]{{/hasConsumes}}{{/singleContentTypes}}
-    )
-    {{#reactive}}{{^isArray}}suspend {{/isArray}}{{/reactive}}fun {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>cookieParams}}{{>bodyParams}}{{>formParams}}{{>requesObject}}{{^-last}},{{/-last}}{{/allParams}}): ResponseEntity<{{>returnTypes}}> {
-        return {{>returnValue}}
+    override fun save{{{classname}}}(domain: {{{classname}}}): {{{classname}}} {
+        val entity = {{{classname}}}Entity(domain)
+        return {{#lambda.camelcase}}{{{classname}}}{{/lambda.camelcase}}Repository.save(entity).toDomain()
     }
-{{/operation}}
+
+    override fun read{{{classname}}}(id: UUID): {{{classname}}} {
+        return {{#lambda.camelcase}}{{{classname}}}{{/lambda.camelcase}}Repository.findByIdOrThrow(id).toDomain()
+    }
+
+    override fun delete{{{classname}}}(id: UUID): Boolean {
+        {{#lambda.camelcase}}{{{classname}}}{{/lambda.camelcase}}Repository.deleteById(id)
+        return true
+    }
+
+    override fun readPage(qdo: {{{classname}}}ReadPageQdo): OffsetElements<{{{classname}}}> {
+        val query = queryFactory.select(Q_{{#lambda.uppercase}}{{{classname}}}{{/lambda.uppercase}})
+            .from(Q_{{#lambda.uppercase}}{{{classname}}}{{/lambda.uppercase}})
+        val queryBuilder = OffsetQueryBuilder.build(query, qdo)
+        return OffsetElements(queryBuilder.fetch().toDomains(), queryBuilder.fetchCount())
+    }
 }
-{{/operations}}
