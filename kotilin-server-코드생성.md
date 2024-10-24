@@ -81,7 +81,7 @@ https://openapi-generator.tech/docs/generators/kotlin-spring 참고하여 번역
 | basePackage | 생성된 코드의 기본 패키지입니다. | org.openapitools |
 | beanQualifiers | @Component 및 @RestController 주석에 완전한 클래스 이름을 추가할지 여부입니다. | false |
 | configPackage | 생성된 코드의 구성 패키지입니다. | org.openapitools.configuration |
-| delegatePattern | 서버 파일을 위임 패턴을 사용하여 생성할지 여부입니다. | false |
+| ~~delegatePattern~~ | 서버 파일을 위임 패턴을 사용하여 생성할지 여부입니다. | false |
 | documentationProvider | OpenAPI 문서 제공자를 선택합니다. | springdoc |
 | enumPropertyNaming | 열거형 속성의 명명 규칙입니다. | original |
 | exceptionHandler | 기본 전역 예외 처리기를 생성할지 여부입니다. | true |
