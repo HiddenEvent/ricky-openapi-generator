@@ -1,3 +1,3 @@
 
-    @OneToMany(mappedBy = "", cascade = [CascadeType.ALL])
+    @OneToMany(mappedBy = "{{#lambda.camelcase}}{{{classname}}}{{/lambda.camelcase}}", cascade = [CascadeType.ALL])
     {{>modelMutable}} {{{name}}}: {{{baseType}}}<{{{complexType}}}Entity> = domain.{{{name}}}.map { {{{complexType}}}Entity(it) }.toList()

@@ -1,5 +1,6 @@
 
-    @Comment("{{{title}}}"){{#isEnum}}
+    @Comment("{{{title}}}")
+    @Column(name = "{{#lambda.snakecase}}{{name}}{{/lambda.snakecase}}"){{#isEnum}}
     @Enumerated(EnumType.STRING){{/isEnum}}
     {{>modelMutable}} {{{name}}}: {{!
     }}{{#isEnum}}{{!
