@@ -1,8 +1,7 @@
+import org.gradle.api.tasks.Copy
 import java.net.URI
 import kotlin.io.path.createDirectories
 import kotlin.io.path.writeText
-import org.gradle.api.tasks.Copy
-import java.io.File
 
 val apiPackagePath by extra("me/ricky/api")
 val modelPackagePath by extra("me/ricky/storage")
@@ -100,7 +99,24 @@ tasks.register<Copy>("moveTestFiles") {
     }
 }
 
-tasks.named("openApiGenerate") {
-    dependsOn("downloadOpenApiSpec")
-    finalizedBy("moveServiceImpleFiles", "moveServiceFiles", "moveControllerFiles", "moveEntityFiles", "moveTestFiles")
+tasks.register<Copy>("moveDelegateFiles") {
+    println("convert Repository.................")
+    val sourceDir = "${layout.buildDirectory.get().asFile}/openapi-kotlin/src/main/kotlin/${apiPackagePath}"
+    val targetDir = "${layout.buildDirectory.get().asFile}/ricky-generator/storage/store/repository"
+
+    from(sourceDir)
+    into(targetDir)
+    exclude("**/*PublicDelegate.kt")
+    exclude("**/*AdminDelegate.kt")
+    include("**/*Delegate.kt")
+
+    eachFile {
+        this.name = this.name.replace("Delegate.kt", "Repository.kt")
+        println(this.name)
+    }
 }
+
+tasks.named("openApiGenerate") {
+    finalizedBy("moveServiceImpleFiles", "moveServiceFiles", "moveControllerFiles", "moveEntityFiles", "moveTestFiles", "moveDelegateFiles")
+}
+

@@ -1,3 +1,8 @@
+package {{modelPackage}}.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}.entity
+
+import org.hibernate.annotations.Comment
+import jakarta.persistence.*
+
 @Comment("{{description}}")
 @Entity
 @Table(name = "{{#lambda.snakecase}}{{{name}}}{{/lambda.snakecase}}")

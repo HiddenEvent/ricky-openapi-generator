@@ -1,10 +1,6 @@
-package {{modelPackage}}.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}.entity
-
-import org.hibernate.annotations.Comment
-import jakarta.persistence.*
-
 {{#models}}
 {{#model}}
-{{>dataClass}}
+{{^isFactory}}{{>dataClass}}{{/isFactory}}{{!
+}}{{#isFactory}}{{>factoryClass}}{{/isFactory}}
 {{/model}}
 {{/models}}

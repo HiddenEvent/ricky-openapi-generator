@@ -32,7 +32,6 @@ val modelPackageName by extra("${basePackageName}.storage")
 
 // 두번째
 openApiGenerate {
-    println("openApiGenerate 실행됨")
     generatorName.set("kotlin-spring")
     inputSpec.set(layout.buildDirectory.file("openapi-spec.json").get().asFile.absolutePath)
     outputDir.set(layout.buildDirectory.dir("openapi-kotlin").get().asFile.absolutePath)
@@ -54,6 +53,57 @@ openApiGenerate {
             "serviceImplementation" to "true",
         )
     )
+}
+
+
+// model 추가를 위해
+tasks.register<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("generateOpenAPIKotlin") {
+    generatorName.set("kotlin-spring")
+    inputSpec.set(layout.buildDirectory.file("openapi-spec.json").get().asFile.absolutePath)
+    outputDir.set(layout.buildDirectory.dir("openapi-kotlin").get().asFile.absolutePath)
+    templateDir.set(layout.projectDirectory.dir("src/main/resources/templates").asFile.absolutePath)
+    additionalProperties.set(
+        mapOf(
+            "isFactory" to "true"
+        )
+    )
+    configOptions.set(
+        mapOf(
+            "apiSuffix" to "",
+            "basePackage" to basePackageName,
+            "apiPackage" to apiPackageName,
+            "modelPackage" to modelPackageName,
+            "useSpringBoot3" to "true",
+            "useTags" to "true",
+            "delegatePattern" to "true",
+        )
+    )
+}
+
+tasks.register<Copy>("moveModelFiles") {
+    println("convertFactoryFiles .................")
+    dependsOn("generateOpenAPIKotlin")
+    val sourceDir = "${layout.buildDirectory.get().asFile}/openapi-kotlin/src/main/kotlin/me/ricky/storage"
+    val targetDir = "${layout.buildDirectory.get().asFile}/ricky-generator/spec/factory"
+
+    from(sourceDir)
+    into(targetDir)
+    exclude("JwtToken.kt")
+    exclude("**/*Qdo.kt")
+    exclude("**/OffsetElements*")
+    exclude("**/ExceptionBody.kt")
+
+    eachFile {
+        this.name = this.name.replace(".kt", "Factory.kt")
+        println(this.name)
+    }
+}
+
+
+// build.gradle.kts
+tasks.register("generateOpenAPI") {
+    dependsOn("downloadOpenApiSpec", "generateOpenAPIKotlin", "moveModelFiles")
+    finalizedBy("openApiGenerate")
 }
 
 kotlin {
