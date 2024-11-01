@@ -7,19 +7,22 @@ import jakarta.persistence.*
 @Entity
 @Table(name = "{{#lambda.snakecase}}{{{name}}}{{/lambda.snakecase}}")
 internal class {{classname}}Entity(domain: {{classname}}) : AuditEntity<{{classname}}>(domain) {
-    /* 필수 필드 부분 */{{!
+    /* Required 필드*/{{!
 }}{{#requiredVars}}{{^vendorExtensions.x-custom-properties.isInherit}}{{^isModel}}{{^isContainer}}{{!
     }}{{>dataClassReqVar}}{{!
 }}{{/isContainer}}{{/isModel}}{{/vendorExtensions.x-custom-properties.isInherit}}{{/requiredVars}}
-    /* Optional 필드 부분 */{{!
+    /* Optional 필드*/{{!
 }}{{#optionalVars}}{{^vendorExtensions.x-custom-properties.isInherit}}{{^isModel}}{{^isContainer}}{{!
     }}{{>dataClassOptVar}}{{!
 }}{{/isContainer}}{{/isModel}}{{/vendorExtensions.x-custom-properties.isInherit}}{{/optionalVars}}
 
-    /* Collection / Object 부분 */{{!
-}}{{#Vars}}{{^vendorExtensions.x-custom-properties.isInherit}}{{!
-    }}{{#isModel}}{{>dataClassReqVarModdel}}{{/isModel}}{{!
-    }}{{#isContainer}}{{^isPrimitiveType}}{{^isEnum}}{{>dataClassReqVarCollection}}{{/isEnum}}{{/isPrimitiveType}}{{/isContainer}}{{!
+{{#Vars}}{{^vendorExtensions.x-custom-properties.isInherit}}{{!
+    }}{{#isModel}}{{!
+        }}{{>dataClassReqVarModdel}}{{!
+    }}{{/isModel}}{{!
+    }}{{#isContainer}}{{^isPrimitiveType}}{{^isEnum}}{{!
+        }}{{>dataClassReqVarCollection}}{{!
+    }}{{/isEnum}}{{/isPrimitiveType}}{{/isContainer}}{{!
 }}{{/vendorExtensions.x-custom-properties.isInherit}}{{/Vars}}
 
     override fun domainInstance(): {{classname}} = {{classname}}(

@@ -1,5 +1,24 @@
 package {{basePackage}}.spec.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}.factory
 
-object {{classname}}Factory {
+import com.fasterxml.jackson.databind.ObjectMapper
+import java.util.*
 
+object {{classname}}Factory : DomainFactory<{{classname}}>() {
+    val {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}: {{classname}} = create()
+{{#Vars}}{{^vendorExtensions.x-custom-properties.isInherit}}{{#isContainer}}{{!
+}}        .apply { {{name}} = createMapping{{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}(this.id, 3) }{{!
+}}{{/isContainer}}{{/vendorExtensions.x-custom-properties.isInherit}}{{/Vars}}
+
+    val {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}List: List<{{classname}}> = createList(20)
+{{#Vars}}{{^vendorExtensions.x-custom-properties.isInherit}}{{#isContainer}}{{!
+}}        .onEach { it.{{name}} = createMapping{{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}(it.id, 3) }{{!
+}}{{/isContainer}}{{/vendorExtensions.x-custom-properties.isInherit}}{{/Vars}}
+
+    override fun create(): {{classname}} {
+        return {{classname}}(
+{{#Vars}}{{^vendorExtensions.x-custom-properties.isInherit}}{{^isModel}}{{^isContainer}}{{>dataClassReqDummyArg}}{{/isContainer}}{{/isModel}}{{/vendorExtensions.x-custom-properties.isInherit}}{{/Vars}}{{!
+}}        ).apply {
+            this.setSampleData()
+        }
+    }
 }
