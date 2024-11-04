@@ -1,6 +1,6 @@
-            {{name}} = {{!
+                {{name}} = {{!
 }}{{#isEnum}}{{classname}}.{{nameInPascalCase}}{{/isEnum}}{{!
 }}{{#isUuid}}UUID(0, 0){{/isUuid}}{{!
-}}{{^isUuid}}{{^isEnum}}{{#isString}}"{{{title}}}"{{/isString}}{{/isEnum}}{{/isUuid}}{{!
+}}{{^isUuid}}{{^isEnum}}{{#isString}}"{{{title}}}-${it + 1}"{{/isString}}{{/isEnum}}{{/isUuid}}{{!
 }}{{#isBoolean}}true{{/isBoolean}}{{!
 }}{{#isNumeric}}0{{/isNumeric}}

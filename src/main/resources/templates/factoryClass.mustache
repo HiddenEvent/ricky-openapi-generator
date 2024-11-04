@@ -6,14 +6,15 @@ import java.util.*
 object {{classname}}Factory : DomainFactory<{{classname}}>() {
     val {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}: {{classname}} = create()
 {{#Vars}}{{^vendorExtensions.x-custom-properties.isInherit}}{{#isContainer}}{{!
-}}        .apply { {{name}} = createMapping{{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}(this.id, 3) }{{!
-}}{{/isContainer}}{{/vendorExtensions.x-custom-properties.isInherit}}{{/Vars}}
-
+}}        .apply { {{name}} = createMapping{{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}(this.id, 3) }
+{{/isContainer}}{{/vendorExtensions.x-custom-properties.isInherit}}{{/Vars}}{{!
+}}
     val {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}List: List<{{classname}}> = createList(20)
 {{#Vars}}{{^vendorExtensions.x-custom-properties.isInherit}}{{#isContainer}}{{!
-}}        .onEach { it.{{name}} = createMapping{{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}(it.id, 3) }{{!
-}}{{/isContainer}}{{/vendorExtensions.x-custom-properties.isInherit}}{{/Vars}}
-
+}}        .onEach { it.{{name}} = createMapping{{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}(it.id, 3) }
+{{/isContainer}}{{/vendorExtensions.x-custom-properties.isInherit}}{{/Vars}}{{!
+}}
+    /* 단건 sampleData 생성 */
     override fun create(): {{classname}} {
         return {{classname}}(
 {{#Vars}}{{^vendorExtensions.x-custom-properties.isInherit}}{{^isModel}}{{^isContainer}}{{>dataClassReqDummyArg}}{{/isContainer}}{{/isModel}}{{/vendorExtensions.x-custom-properties.isInherit}}{{/Vars}}{{!
@@ -21,4 +22,34 @@ object {{classname}}Factory : DomainFactory<{{classname}}>() {
             this.setSampleData()
         }
     }
+
+    /* 리스트 sampleData 생성 */
+    override fun createList(size: Int): List<{{classname}}> {
+        val results = MutableList(size - 1) {
+            {{classname}}(
+{{#Vars}}{{^vendorExtensions.x-custom-properties.isInherit}}{{^isModel}}{{^isContainer}}{{>dataClassReqDummyListArg}}{{/isContainer}}{{/isModel}}{{/vendorExtensions.x-custom-properties.isInherit}}{{/Vars}}{{!
+}}            ).apply {
+                this.setSampleData()
+            }
+        }
+        results.add(0, {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}})
+        return results
+    }
+{{#Vars}}{{^vendorExtensions.x-custom-properties.isInherit}}{{#isContainer}}
+    /* {{name}} 매핑  */
+    private fun createMapping{{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}(id: UUID, size: Int): MutableList<{{complexType}}> {
+        return {{complexType}}Factory.createList(size)
+            .onEach { it.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}Id = id }
+            .toMutableList()
+    }
+{{/isContainer}}{{/vendorExtensions.x-custom-properties.isInherit}}{{/Vars}}
+}
+
+//  main 함수는 테스트 용으로 객체를 생성 후 출력해 보기 위한 용도로 사용됨
+fun main() {
+    val mapper = ObjectMapper()
+    val sample{{classname}} = mapper.writeValueAsString({{classname}}Factory.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}})
+    val sample{{classname}}List = mapper.writeValueAsString({{classname}}Factory.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}List)
+    println(sample{{classname}})
+    println(sample{{classname}}List)
 }
