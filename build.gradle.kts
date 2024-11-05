@@ -81,7 +81,7 @@ tasks.register<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("gen
 }
 
 tasks.register<Copy>("moveModelFiles") {
-    println("convertFactoryFiles .................")
+    println("convert Factory.................")
     dependsOn("generateOpenAPIKotlin")
     val sourceDir = "${layout.buildDirectory.get().asFile}/openapi-kotlin/src/main/kotlin/me/ricky/storage"
     val targetDir = "${layout.buildDirectory.get().asFile}/ricky-generator/spec/factory"

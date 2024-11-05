@@ -8,7 +8,7 @@ val modelPackagePath by extra("me/ricky/storage")
 
 tasks.register("downloadOpenApiSpec") {
     doFirst {
-        println("downloadOpenApiSpec .................")
+        println("download OpenApiSpec .................")
         val specUri = URI("http://localhost:9200/v3/api-docs/1-all").toURL()
         val specPath = layout.buildDirectory.file("openapi-spec.json").get().asFile.toPath()
         specPath.parent.createDirectories()
@@ -17,7 +17,7 @@ tasks.register("downloadOpenApiSpec") {
 }
 
 tasks.register<Copy>("moveServiceImpleFiles") {
-    println("convertService .................")
+    println("convert Service.................")
     val sourceDir = "${layout.buildDirectory.get().asFile}/openapi-kotlin/src/main/kotlin/${apiPackagePath}"
     val targetDir = "${layout.buildDirectory.get().asFile}/ricky-generator/aggregate/service"
 
@@ -31,10 +31,12 @@ tasks.register<Copy>("moveServiceImpleFiles") {
         this.name = this.name.replace("ServiceImpl.kt", "Service.kt")
         println(this.name)
     }
+    // 항상 작업이 실행되도록 설정
+    outputs.upToDateWhen { false }
 }
 
 tasks.register<Copy>("moveServiceFiles") {
-    println("convertStoreFiles .................")
+    println("convert Store.................")
     val sourceDir = "${layout.buildDirectory.get().asFile}/openapi-kotlin/src/main/kotlin/${apiPackagePath}"
     val targetDir = "${layout.buildDirectory.get().asFile}/ricky-generator/aggregate/store"
 
@@ -51,7 +53,7 @@ tasks.register<Copy>("moveServiceFiles") {
 }
 
 tasks.register<Copy>("moveControllerFiles") {
-    println("moveJpaStoreFiles .................")
+    println("convert JpaStore.................")
     val sourceDir = "${layout.buildDirectory.get().asFile}/openapi-kotlin/src/main/kotlin/${apiPackagePath}"
     val targetDir = "${layout.buildDirectory.get().asFile}/ricky-generator/storage/store"
 
@@ -65,10 +67,12 @@ tasks.register<Copy>("moveControllerFiles") {
         this.name = this.name.replace("Controller.kt", "JpaStore.kt")
         println(this.name)
     }
+    // 항상 작업이 실행되도록 설정
+    outputs.upToDateWhen { false }
 }
 
 tasks.register<Copy>("moveEntityFiles") {
-    println("moveEntityFiles .................")
+    println("convert Entity.................")
     val sourceDir = "${layout.buildDirectory.get().asFile}/openapi-kotlin/src/main/kotlin/${modelPackagePath}"
     val targetDir = "${layout.buildDirectory.get().asFile}/ricky-generator/storage/entity"
 
@@ -83,10 +87,11 @@ tasks.register<Copy>("moveEntityFiles") {
         this.name = this.name.replace(".kt", "Entity.kt")
         println(this.name)
     }
+
 }
 
 tasks.register<Copy>("moveTestFiles") {
-    println("통합 테스트 파일 변경 .................")
+    println("convert Test.................")
     val sourceDir = "${layout.buildDirectory.get().asFile}/openapi-kotlin/src/test/kotlin/${apiPackagePath}"
     val targetDir = "${layout.buildDirectory.get().asFile}/ricky-generator/test"
 
@@ -97,6 +102,7 @@ tasks.register<Copy>("moveTestFiles") {
         this.name = this.name.replace("Test.kt", "IT.kt")
         println(this.name)
     }
+    outputs.upToDateWhen { false }
 }
 
 tasks.register<Copy>("moveDelegateFiles") {
@@ -115,8 +121,24 @@ tasks.register<Copy>("moveDelegateFiles") {
         println(this.name)
     }
 }
+tasks.register<Delete>("testDirDelete") {
+    val sourceDir = "${layout.buildDirectory.get().asFile}/openapi-kotlin/src/test/kotlin/${apiPackagePath}"
+
+    delete(sourceDir)
+    doFirst {
+        println("Deleting directory: $sourceDir")
+    }
+}
 
 tasks.named("openApiGenerate") {
-    finalizedBy("moveServiceImpleFiles", "moveServiceFiles", "moveControllerFiles", "moveEntityFiles", "moveTestFiles", "moveDelegateFiles")
+    dependsOn("testDirDelete")
+    finalizedBy(
+        "moveServiceImpleFiles",
+        "moveServiceFiles",
+        "moveControllerFiles",
+        "moveEntityFiles",
+        "moveTestFiles",
+        "moveDelegateFiles"
+    )
 }
 
