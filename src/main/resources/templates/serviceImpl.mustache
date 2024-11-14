@@ -10,15 +10,15 @@ class {{classname}}Service(
 ) {
 
     @Transactional
-    fun create{{{classname}}}(request: {{{classname}}}CreateQdo): {{{classname}}} {
-        val createDomain = {{{classname}}}(request)
+    fun create{{{classname}}}(qdo: {{{classname}}}CreateQdo): {{{classname}}} {
+        val createDomain = {{{classname}}}(qdo)
         return {{#lambda.camelcase}}{{{classname}}}{{/lambda.camelcase}}Store.save{{{classname}}}(createDomain)
     }
 
     @Transactional
-    fun modify{{{classname}}}(id: UUID, request: {{{classname}}}ModifyQdo): {{{classname}}} {
+    fun modify{{{classname}}}(id: UUID, qdo: {{{classname}}}ModifyQdo): {{{classname}}} {
         val {{#lambda.camelcase}}{{{classname}}}{{/lambda.camelcase}} = {{#lambda.camelcase}}{{{classname}}}{{/lambda.camelcase}}Store.read{{classname}}(id)
-        {{#lambda.camelcase}}{{{classname}}}{{/lambda.camelcase}}.modify{{classname}}(request)
+        {{#lambda.camelcase}}{{{classname}}}{{/lambda.camelcase}}.modify{{classname}}(qdo)
         return {{#lambda.camelcase}}{{{classname}}}{{/lambda.camelcase}}Store.save{{{classname}}}({{#lambda.camelcase}}{{{classname}}}{{/lambda.camelcase}})
     }
 
@@ -28,8 +28,8 @@ class {{classname}}Service(
     }
 
     @Transactional(readOnly = true)
-    fun readPage(dto: {{{classname}}}ReadPageQdo): OffsetElements<{{{classname}}}> {
-        return {{#lambda.camelcase}}{{{classname}}}{{/lambda.camelcase}}Store.readPage(dto)
+    fun readPage(qdo: {{{classname}}}ReadPageQdo): OffsetElements<{{{classname}}}> {
+        return {{#lambda.camelcase}}{{{classname}}}{{/lambda.camelcase}}Store.readPage(qdo)
     }
 
 }

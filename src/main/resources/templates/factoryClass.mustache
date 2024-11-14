@@ -1,6 +1,7 @@
 package {{basePackage}}.spec.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}.factory
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import me.ricky.spec.base.factory.DomainFactory
 import java.util.*
 
 object {{classname}}Factory : DomainFactory<{{classname}}>() {

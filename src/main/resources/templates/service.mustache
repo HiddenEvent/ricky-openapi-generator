@@ -4,6 +4,6 @@ interface {{classname}}Store {
     fun save{{classname}}(domain: {{classname}}): {{classname}}
     fun read{{classname}}(id: UUID): {{classname}}
     fun delete{{classname}}(id: UUID): Boolean
-    fun readPage(request: {{classname}}ReadPageQdo): OffsetElements<{{classname}}>
+    fun readPage(qdo: {{classname}}ReadPageQdo): OffsetElements<{{classname}}>
 }
 

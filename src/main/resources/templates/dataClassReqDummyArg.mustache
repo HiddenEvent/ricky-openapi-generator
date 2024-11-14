@@ -1,6 +1,6 @@
             {{name}} = {{!
-}}{{#isEnum}}{{classname}}.{{nameInPascalCase}}{{/isEnum}}{{!
-}}{{#isUuid}}UUID(0, 0){{/isUuid}}{{!
-}}{{^isUuid}}{{^isEnum}}{{#isString}}"{{{title}}}"{{/isString}}{{/isEnum}}{{/isUuid}}{{!
-}}{{#isBoolean}}true{{/isBoolean}}{{!
-}}{{#isNumeric}}0{{/isNumeric}}
+}}{{#isEnum}}{{classname}}.{{nameInPascalCase}},{{/isEnum}}{{!
+}}{{#isUuid}}UUID(0, 0),{{/isUuid}}{{!
+}}{{^isUuid}}{{^isEnum}}{{#isString}}"{{{title}}}",{{/isString}}{{/isEnum}}{{/isUuid}}{{!
+}}{{#isBoolean}}true,{{/isBoolean}}{{!
+}}{{#isNumeric}}0,{{/isNumeric}}
