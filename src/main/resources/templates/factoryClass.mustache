@@ -15,24 +15,30 @@ object {{classname}}Factory : DomainFactory<{{classname}}>() {
 }}        .onEach { it.{{name}} = createMapping{{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}(it.id, 3) }
 {{/isContainer}}{{/vendorExtensions.x-custom-properties.isInherit}}{{/Vars}}{{!
 }}
-    /* 단건 sampleData 생성 */
-    override fun create(): {{classname}} {
-        return {{classname}}(
-{{#Vars}}{{^vendorExtensions.x-custom-properties.isInherit}}{{^isModel}}{{^isContainer}}{{>dataClassReqDummyArg}}{{/isContainer}}{{/isModel}}{{/vendorExtensions.x-custom-properties.isInherit}}{{/Vars}}{{!
-}}        ).apply {
-            this.setSampleData()
-        }
-    }
 
-    /* 리스트 sampleData 생성 */
-    override fun createList(size: Int): List<{{classname}}> {
-        val results = MutableList(size - 1) {
+    override fun create(): {{classname}} = {{classname}}(
+{{#Vars}}{{^vendorExtensions.x-custom-properties.isInherit}}{{^isModel}}{{^isContainer}}{{>dataClassReqDummyArg}}{{/isContainer}}{{/isModel}}{{/vendorExtensions.x-custom-properties.isInherit}}{{/Vars}}{{!
+}}    )
+
+    override fun createList(size: Int): List<{{classname}}> =
+        MutableList(size - 1) {
             {{classname}}(
 {{#Vars}}{{^vendorExtensions.x-custom-properties.isInherit}}{{^isModel}}{{^isContainer}}{{>dataClassReqDummyListArg}}{{/isContainer}}{{/isModel}}{{/vendorExtensions.x-custom-properties.isInherit}}{{/Vars}}{{!
-}}            ).apply {
-                this.setSampleData()
-            }
+}}            )
         }
+
+    /* 단건 sampleData 생성 */
+    override fun sample(): {{classname}} = create()
+        .apply {
+            this.setSampleData()
+        }
+
+    /* 리스트 sampleData 생성 */
+    override fun sampleList(size: Int): List<{{classname}}> {
+        val results = createList(size)
+            .map { it.apply { this.setSampleData() } }
+            .toMutableList()
+
         results.add(0, {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}})
         return results
     }
