@@ -5,49 +5,46 @@ import me.ricky.spec.base.factory.DomainFactory
 import java.util.*
 
 object {{classname}}Factory : DomainFactory<{{classname}}>() {
-    val {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}: {{classname}} = create()
 
-    val {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}List: List<{{classname}}> = createList(10)
-
-
-    override fun create(): {{classname}} = {{classname}}(
+    override fun dummy(): {{classname}} = {{classname}}(
 {{#Vars}}{{^vendorExtensions.x-custom-properties.isInherit}}{{^isModel}}{{^isContainer}}{{>dataClassReqDummyArg}}{{/isContainer}}{{/isModel}}{{/vendorExtensions.x-custom-properties.isInherit}}{{/Vars}}{{!
 }}    )
 {{#Vars}}{{^vendorExtensions.x-custom-properties.isInherit}}{{#isContainer}}{{!
 }}        .apply { {{name}} = createMapping{{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}(this.id, 3) }
 {{/isContainer}}{{/vendorExtensions.x-custom-properties.isInherit}}{{/Vars}}{{!
 }}
-    override fun createList(size: Int): List<{{classname}}> {
-        return MutableList(size - 1) {
+    override fun dummyList(size: Int): List<{{classname}}> {
+        val results = MutableList(size - 1) {
             {{classname}}(
 {{#Vars}}{{^vendorExtensions.x-custom-properties.isInherit}}{{^isModel}}{{^isContainer}}{{>dataClassReqDummyListArg}}{{/isContainer}}{{/isModel}}{{/vendorExtensions.x-custom-properties.isInherit}}{{/Vars}}{{!
 }}            )
 {{#Vars}}{{^vendorExtensions.x-custom-properties.isInherit}}{{#isContainer}}{{!
 }}                .apply { {{name}} = createMapping{{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}(this.id, 3) }
 {{/isContainer}}{{/vendorExtensions.x-custom-properties.isInherit}}{{/Vars}}{{!
-}}
-        }
+}}        }
+        results.add(0, dummy())
+        return results
     }
 
     /* 단건 sampleData 생성 */
-    override fun sample(): {{classname}} = create()
+    override fun sample(): {{classname}} = dummy()
         .apply {
             this.setSampleData()
         }
 
     /* 리스트 sampleData 생성 */
     override fun sampleList(size: Int): List<{{classname}}> {
-        val results = createList(size)
+        val results = dummyList(size)
             .map { it.apply { this.setSampleData() } }
             .toMutableList()
 
-        results.add(0, {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}})
+        results.add(0, sample())
         return results
     }
 {{#Vars}}{{^vendorExtensions.x-custom-properties.isInherit}}{{#isContainer}}
     /* {{name}} 매핑  */
-    private fun createMapping{{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}(id: UUID, size: Int): MutableList<{{complexType}}> {
-        return {{complexType}}Factory.createList(size)
+    private fun dummyMapping{{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}(id: UUID, size: Int): MutableList<{{complexType}}> {
+        return {{complexType}}Factory.dummyList(size)
             .onEach { it.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}Id = id }
             .toMutableList()
     }
