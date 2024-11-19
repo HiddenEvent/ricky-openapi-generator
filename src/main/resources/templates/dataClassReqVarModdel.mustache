@@ -1,4 +1,4 @@
     /* Object 매핑 */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "{{{name}}}_id", insertable = false, updatable = false, foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
-    {{>modelMutable}} {{{name}}}: {{{dataType}}}Entity? = domain.{{{name}}}?.let { {{{dataType}}}Entity(it) }
+    {{>modelMutable}} {{{name}}}: {{{dataType}}}Entity? = null // domain.{{{name}}}?.let { {{{dataType}}}Entity(it) }
