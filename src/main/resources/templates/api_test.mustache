@@ -21,7 +21,10 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 @AutoConfigureMockMvc
 class {{classname}}IT {
     @Autowired
-    private lateinit var initFixture: InitFixture
+    private lateinit var userFixture: UserFixture
+
+    @Autowired
+    private lateinit var {{classname}}Fixture: {{#lambda.pascalcase}}{{operationId}}{{/lambda.pascalcase}}Fixture
 
     @Autowired
     private lateinit var mockMvc: MockMvc
@@ -40,15 +43,13 @@ class {{classname}}IT {
         val {{{paramName}}}: {{>optionalDataType}} = TODO()
         {{/allParams}}
 
-        val uri: String = {{classname}}Uri.get{{#lambda.pascalcase}}{{operationId}}{{/lambda.pascalcase}}()
-
         //when
         val resultAction: ResultActions = mockMvc.perform(
-            {{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}(uri)
-                .withJwt(initFixture.ADMIN_TOKEN) // 인증 필요시
+            {{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}("{{path}}")
+                .withJwt(userFixture.ADMIN_TOKEN) // 인증 필요시
 {{!           }}{{#bodyParam.isBodyParam}}{{!
 }}                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(qdo))
+                .content(objectMapper.writeValueAsString(TODO()))
 {{!           }}{{/bodyParam.isBodyParam}}{{!
 }}                //.params(qdo.toMultiValueMap()) // GET: Params 전송 시 사용
         ).andDo(PrettyLogger())
