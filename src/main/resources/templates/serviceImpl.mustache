@@ -10,13 +10,13 @@ class {{classname}}Service(
 ) {
 
     @Transactional
-    fun create{{{classname}}}(qdo: {{{classname}}}CreateQdo): {{{classname}}} {
+    fun create{{{classname}}}(qdo: {{{classname}}}SaveQdo): {{{classname}}} {
         val createDomain = {{{classname}}}(qdo)
         return {{#lambda.camelcase}}{{{classname}}}{{/lambda.camelcase}}Store.save{{{classname}}}(createDomain)
     }
 
     @Transactional
-    fun modify{{{classname}}}(id: UUID, qdo: {{{classname}}}ModifyQdo): {{{classname}}} {
+    fun modify{{{classname}}}(id: UUID, qdo: {{{classname}}}SaveQdo): {{{classname}}} {
         val {{#lambda.camelcase}}{{{classname}}}{{/lambda.camelcase}} = {{#lambda.camelcase}}{{{classname}}}{{/lambda.camelcase}}Store.read{{classname}}(id)
         {{#lambda.camelcase}}{{{classname}}}{{/lambda.camelcase}}.modify{{classname}}(qdo)
         return {{#lambda.camelcase}}{{{classname}}}{{/lambda.camelcase}}Store.save{{{classname}}}({{#lambda.camelcase}}{{{classname}}}{{/lambda.camelcase}})

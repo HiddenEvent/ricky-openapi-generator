@@ -47,7 +47,7 @@ object {{classname}}Factory : DomainFactory<{{classname}}>() {
     }
 {{#Vars}}{{^vendorExtensions.x-custom-properties.isInherit}}{{#isContainer}}
     /* {{name}} 매핑  */
-    private fun dummyMapping{{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}(id: UUID, size: Int): MutableList<{{complexType}}> {
+    fun createMapping{{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}(id: UUID, size: Int): MutableList<{{complexType}}> {
         return {{complexType}}Factory.dummyList(size)
             .onEach { it.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}Id = id }
             .toMutableList()
