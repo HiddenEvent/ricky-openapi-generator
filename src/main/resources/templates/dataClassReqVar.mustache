@@ -6,4 +6,4 @@
     }}{{#isEnum}}{{!
         }}{{#isArray}}{{baseType}}<{{/isArray}}{{classname}}.{{{nameInPascalCase}}}{{#isArray}}>{{/isArray}}{{!
     }}{{/isEnum}}{{!
-    }}{{^isEnum}}{{{dataType}}}{{/isEnum}} = domain.{{{name}}}
+    }}{{^isEnum}}{{{dataType}}}{{/isEnum}} = domain.{{{name}}}{{#isUuid}}.takeIf { it != UUID(0L, 0L) }{{/isUuid}}
