@@ -8,13 +8,13 @@ import java.util.*
 object {{classname}}Sample : DomainSample<{{classname}}>() {
 
     override fun new(): {{classname}} = {{classname}}(
-{{#Vars}}{{^vendorExtensions.x-custom-properties.isInherit}}{{^isModel}}{{^isContainer}}{{>dataClassReqDummyArg}}{{/isContainer}}{{/isModel}}{{/vendorExtensions.x-custom-properties.isInherit}}{{/Vars}}{{!
+{{#Vars}}{{^vendorExtensions.x-custom-properties.isInherit}}{{^isModel}}{{^isContainer}}{{>dataClassReqSampleArg}}{{/isContainer}}{{/isModel}}{{/vendorExtensions.x-custom-properties.isInherit}}{{/Vars}}{{!
 }}    )
 
     override fun newList(size: Int): List<{{classname}}> {
         val results = MutableList(size - 1) {
             {{classname}}(
-{{#Vars}}{{^vendorExtensions.x-custom-properties.isInherit}}{{^isModel}}{{^isContainer}}{{>dataClassReqDummyListArg}}{{/isContainer}}{{/isModel}}{{/vendorExtensions.x-custom-properties.isInherit}}{{/Vars}}{{!
+{{#Vars}}{{^vendorExtensions.x-custom-properties.isInherit}}{{^isModel}}{{^isContainer}}{{>dataClassReqSampleListArg}}{{/isContainer}}{{/isModel}}{{/vendorExtensions.x-custom-properties.isInherit}}{{/Vars}}{{!
 }}            )
         }
         results.add(0, new())

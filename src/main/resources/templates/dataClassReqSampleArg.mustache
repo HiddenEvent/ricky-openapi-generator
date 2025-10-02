@@ -1,0 +1,17 @@
+        {{name}} = {{!
+}}{{#isEnum}}{{classname}}.{{nameInPascalCase}},{{/isEnum}}{{!
+}}{{#isUuid}}{{#example}}UUID.fromString("{{example}}"){{/example}}{{^example}}UUID.fromString("00000000-0000-0000-0000-000000000000"){{/example}},{{/isUuid}}{{!
+}}{{^isUuid}}{{^isEnum}}{{#isString}}{{#example}}"{{example}}"{{/example}}{{^example}}"{{{title}}}"{{/example}},{{/isString}}{{/isEnum}}{{/isUuid}}{{!
+}}{{#isBoolean}}{{#example}}{{example}}{{/example}}{{^example}}true{{/example}},{{/isBoolean}}{{!
+}}{{#isNumeric}}{{#example}}{{example}}{{/example}}{{^example}}0{{/example}},{{/isNumeric}}{{!
+}}{{#isInteger}}{{#example}}{{example}}{{/example}}{{^example}}0{{/example}},{{/isInteger}}{{!
+}}{{#isLong}}{{#example}}{{example}}L{{/example}}{{^example}}0L{{/example}},{{/isLong}}{{!
+}}{{#isFloat}}{{#example}}{{example}}f{{/example}}{{^example}}0f{{/example}},{{/isFloat}}{{!
+}}{{#isDouble}}{{#example}}{{example}}.0{{/example}}{{^example}}0.0{{/example}},{{/isDouble}}{{!
+}}{{#isDecimal}}{{#example}}BigDecimal("{{example}}"){{/example}}{{^example}}BigDecimal("0"){{/example}},{{/isDecimal}}{{!
+}}{{#isDate}}{{#example}}LocalDate.parse("{{example}}"){{/example}}{{^example}}LocalDate.parse("1970-01-01"){{/example}},{{/isDate}}{{!
+}}{{#isDateTime}}{{#example}}OffsetDateTime.parse("{{example}}"){{/example}}{{^example}}OffsetDateTime.parse("1970-01-01T00:00:00Z"){{/example}},{{/isDateTime}}{{!
+}}{{#isArray}}{{#example}}listOf({{example}}){{/example}}{{^example}}emptyList(){{/example}},{{/isArray}}{{!
+}}{{#isSet}}{{#example}}setOf({{example}}){{/example}}{{^example}}emptySet(){{/example}},{{/isSet}}{{!
+}}{{#isMap}}{{#example}}mapOf{{{example}}}{{/example}}{{^example}}emptyMap(){{/example}},{{/isMap}}{{!
+}}{{#nullable}}{{#example}}{{example}}{{/example}}{{^example}}null{{/example}},{{/nullable}}
