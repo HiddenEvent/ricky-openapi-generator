@@ -20,7 +20,7 @@ tasks.register("downloadOpenApiSpec") {
 }
 
 /**
- * ServiceImpl 파일을 Service 파일로 복사 및 이름 변경하는 태스크 (Public, Admin 구현체 제외)
+ * ServiceImpl 파일을 Service 파일로 복사 및 이름 변경하는 태스크
  */
 tasks.register<Copy>("moveServiceFiles") {
     println("convert Service.................")
@@ -29,14 +29,22 @@ tasks.register<Copy>("moveServiceFiles") {
 
     from(sourceDir)
     into(targetDir)
-    exclude("**/*PublicServiceImpl.kt")
-    exclude("**/*AdminServiceImpl.kt")
+    include("**/*PublicServiceImpl.kt")
+    include("**/*AdminServiceImpl.kt")
     include("**/*ServiceImpl.kt")
 
     eachFile {
-        this.name = this.name.replace("ServiceImpl.kt", "Service.kt")
+        this.name = this.name.replace(Regex("(PublicServiceImpl|AdminServiceImpl|ServiceImpl)\\.kt$"), "Service.kt")
         println(this.name)
+        filter { line ->
+            line
+                .replace("Public", "", ignoreCase = true)
+                .replace("Admin", "", ignoreCase = true)
+        }
     }
+    // 중복 파일은 덮어쓰기
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+
     // 항상 작업이 실행되도록 설정
     outputs.upToDateWhen { false }
 }
@@ -51,14 +59,21 @@ tasks.register<Copy>("moveStoreFiles") {
 
     from(sourceDir)
     into(targetDir)
-    exclude("**/*PublicService.kt")
-    exclude("**/*AdminService.kt")
+    include("**/*PublicService.kt")
+    include("**/*AdminService.kt")
     include("**/*Service.kt")
 
     eachFile {
-        this.name = this.name.replace("Service.kt", "Store.kt")
+        this.name = this.name.replace(Regex("(PublicService|AdminService|Service)\\.kt$"), "Store.kt")
         println(this.name)
+        filter { line ->
+            line
+                .replace("Public", "", ignoreCase = true)
+                .replace("Admin", "", ignoreCase = true)
+        }
     }
+    // 중복 파일은 덮어쓰기
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
 /**
@@ -71,14 +86,21 @@ tasks.register<Copy>("moveControllerFiles") {
 
     from(sourceDir)
     into(targetDir)
-    exclude("**/*PublicController.kt")
-    exclude("**/*AdminController.kt")
+    include("**/*PublicController.kt")
+    include("**/*AdminController.kt")
     include("**/*Controller.kt")
 
     eachFile {
-        this.name = this.name.replace("Controller.kt", "JpaStore.kt")
+        this.name = this.name.replace(Regex("(PublicController|AdminController|Controller)\\.kt$"), "JpaStore.kt")
         println(this.name)
+        filter { line ->
+            line
+                .replace("Public", "", ignoreCase = true)
+                .replace("Admin", "", ignoreCase = true)
+        }
     }
+    // 중복 파일은 덮어쓰기
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
     // 항상 작업이 실행되도록 설정
     outputs.upToDateWhen { false }
 }
@@ -124,7 +146,7 @@ tasks.register<Copy>("moveTestFiles") {
 }
 
 /**
- * Delegate 파일을 Repository 파일로 복사 및 이름 변경하는 태스크 (Public, Admin delegate 제외)
+ * Delegate 파일을 Repository 파일로 복사 및 이름 변경하는 태스크 => Repository 1개만 있어도 됨
  */
 tasks.register<Copy>("moveRepositoryFiles") {
     println("convert Repository.................")
@@ -133,14 +155,21 @@ tasks.register<Copy>("moveRepositoryFiles") {
 
     from(sourceDir)
     into(targetDir)
-    exclude("**/*PublicDelegate.kt")
-    exclude("**/*AdminDelegate.kt")
+    include("**/*PublicDelegate.kt")
+    include("**/*AdminDelegate.kt")
     include("**/*Delegate.kt")
 
     eachFile {
-        this.name = this.name.replace("Delegate.kt", "Repository.kt")
+        this.name = this.name.replace(Regex("(PublicDelegate|AdminDelegate|Delegate)\\.kt$"), "Repository.kt")
         println(this.name)
+        filter { line ->
+            line
+                .replace("Public", "", ignoreCase = true)
+                .replace("Admin", "", ignoreCase = true)
+        }
     }
+    // 중복 파일은 덮어쓰기
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
 /**

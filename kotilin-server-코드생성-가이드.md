@@ -2,7 +2,7 @@
 1. [openapi.gradle.kts](gradle/openapi.gradle.kts) 파일에 swagger 문서의 api-docs url 경로를 설정한다.
 2. gradle task - other - [generateOpenAPI] Task 를 실행한다.
 ```shell
- .\gradlew generateOpenAPI
+ .\gradlew clean generateOpenAPI --stacktrace
 ```
 3. [ricky-generator](build/ricky-generator) 디렉터리에 생성된 코드를 확인한다. 
    - [service](build/ricky-generator/aggregate/service) - 서비스 로직
@@ -11,6 +11,9 @@
    - [entity](build/ricky-generator/storage/entity) - JPA Entity
    - [store](build/ricky-generator/storage/store) - JpaRepository, 저장로직
    - [test](build/ricky-generator/test) - 통합테스트 코드
+
+## custom template 수정
+- 템플릿 파일 위치 : [templates](src/main/resources/templates) 
 
 ### [build.gradle.kts](build.gradle.kts) [openApiGenerate] task 속성 정리
 | 키 | 데이터 타입 | 기본값 | 설명 |
