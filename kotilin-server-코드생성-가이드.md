@@ -4,10 +4,10 @@
 ```shell
  .\gradlew generateOpenAPI
 ```
-3. [build] - [ricky-generator] 디렉토리에 생성된 코드를 확인한다. 
+3. [ricky-generator](build/ricky-generator) 디렉터리에 생성된 코드를 확인한다. 
    - [service](build/ricky-generator/aggregate/service) - 서비스 로직
    - [store](build/ricky-generator/aggregate/store) - 저장로직 인터페이스 구현
-   - [factory](build/ricky-generator/spec/factory) - 테스트 데이터 생성
+   - [sample](build/ricky-generator/spec/sample) - sample 데이터 생성
    - [entity](build/ricky-generator/storage/entity) - JPA Entity
    - [store](build/ricky-generator/storage/store) - JpaRepository, 저장로직
    - [test](build/ricky-generator/test) - 통합테스트 코드

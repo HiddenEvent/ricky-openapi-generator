@@ -81,10 +81,10 @@ tasks.register<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("gen
 }
 
 tasks.register<Copy>("moveModelFiles") {
-    println("convert Factory.................")
+    println("convert Sample.................")
     dependsOn("generateOpenAPIKotlin")
     val sourceDir = "${layout.buildDirectory.get().asFile}/openapi-kotlin/src/main/kotlin/me/ricky/storage"
-    val targetDir = "${layout.buildDirectory.get().asFile}/ricky-generator/spec/factory"
+    val targetDir = "${layout.buildDirectory.get().asFile}/ricky-generator/spec/sample"
 
     from(sourceDir)
     into(targetDir)
@@ -94,7 +94,7 @@ tasks.register<Copy>("moveModelFiles") {
     exclude("**/ExceptionBody.kt")
 
     eachFile {
-        this.name = this.name.replace(".kt", "Factory.kt")
+        this.name = this.name.replace(".kt", "Sample.kt")
         println(this.name)
     }
 }

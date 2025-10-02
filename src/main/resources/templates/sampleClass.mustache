@@ -1,27 +1,28 @@
-package {{basePackage}}.spec.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}.factory
+package {{basePackage}}.spec.sample
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import me.ricky.spec.base.factory.DomainFactory
+import me.ricky.spec.domain.{{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}
+import me.ricky.spec.sample.base.DomainSample
 import java.util.*
 
-object {{classname}}Factory : DomainFactory<{{classname}}>() {
+object {{classname}}Sample : DomainSample<{{classname}}>() {
 
-    override fun dummy(): {{classname}} = {{classname}}(
+    override fun new(): {{classname}} = {{classname}}(
 {{#Vars}}{{^vendorExtensions.x-custom-properties.isInherit}}{{^isModel}}{{^isContainer}}{{>dataClassReqDummyArg}}{{/isContainer}}{{/isModel}}{{/vendorExtensions.x-custom-properties.isInherit}}{{/Vars}}{{!
 }}    )
 
-    override fun dummyList(size: Int): List<{{classname}}> {
+    override fun newList(size: Int): List<{{classname}}> {
         val results = MutableList(size - 1) {
             {{classname}}(
 {{#Vars}}{{^vendorExtensions.x-custom-properties.isInherit}}{{^isModel}}{{^isContainer}}{{>dataClassReqDummyListArg}}{{/isContainer}}{{/isModel}}{{/vendorExtensions.x-custom-properties.isInherit}}{{/Vars}}{{!
 }}            )
         }
-        results.add(0, dummy())
+        results.add(0, new())
         return results
     }
 
     /* 단건 sampleData 생성 */
-    override fun sample(): {{classname}} = dummy()
+    override fun sample(): {{classname}} = new()
         .apply {
             this.setSampleData()
 {{#Vars}}{{^vendorExtensions.x-custom-properties.isInherit}}{{#isContainer}}{{!
@@ -31,7 +32,7 @@ object {{classname}}Factory : DomainFactory<{{classname}}>() {
 
     /* 리스트 sampleData 생성 */
     override fun sampleList(size: Int): List<{{classname}}> {
-        val results = dummyList(size)
+        val results = newList(size)
             .map {
                 it.apply {
                     this.setSampleData()
@@ -48,7 +49,7 @@ object {{classname}}Factory : DomainFactory<{{classname}}>() {
 {{#Vars}}{{^vendorExtensions.x-custom-properties.isInherit}}{{#isContainer}}
     /* {{name}} 매핑  */
     fun createMapping{{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}(id: UUID, size: Int): MutableList<{{complexType}}> {
-        return {{complexType}}Factory.dummyList(size)
+        return {{complexType}}Sample.newList(size)
             .onEach { it.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}Id = id }
             .toMutableList()
     }
@@ -58,8 +59,8 @@ object {{classname}}Factory : DomainFactory<{{classname}}>() {
 //  main 함수는 테스트 용으로 객체를 생성 후 출력해 보기 위한 용도로 사용됨
 fun main() {
     val mapper = ObjectMapper()
-    val sample{{classname}} = mapper.writeValueAsString({{classname}}Factory.sample())
-    val sample{{classname}}List = mapper.writeValueAsString({{classname}}Factory.sampleList())
+    val sample{{classname}} = mapper.writeValueAsString({{classname}}Sample.sample())
+    val sample{{classname}}List = mapper.writeValueAsString({{classname}}Sample.sampleList())
     println(sample{{classname}})
     println(sample{{classname}}List)
 }
