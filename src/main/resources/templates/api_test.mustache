@@ -1,9 +1,9 @@
 package {{package}}
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import me.ricky.rest.test.utils.PrettyLogger
-import me.ricky.rest.test.utils.withJwt
-import me.ricky.storage.fixture.domain.users.UserFixture
+import {{basePackage}}.rest.test.utils.PrettyLogger
+import {{basePackage}}.rest.test.utils.withJwt
+import {{basePackage}}.storage.fixture.domain.users.UserFixture
 import org.hamcrest.text.MatchesPattern.matchesPattern
 import org.junit.jupiter.api.*
 import org.springframework.beans.factory.annotation.Autowired

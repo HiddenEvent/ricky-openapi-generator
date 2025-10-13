@@ -1,7 +1,9 @@
-package {{modelPackage}}.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}.entity
+package {{modelPackage}}.entity
 
 import org.hibernate.annotations.Comment
 import jakarta.persistence.*
+import {{basePackage}}.storage.entity.base.AuditEntity
+import {{basePackage}}.spec.domain.{{classname}}
 
 @Comment("{{description}}")
 @Entity

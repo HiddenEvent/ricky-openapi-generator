@@ -1,4 +1,9 @@
-package {{basePackage}}.aggregate.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}.store
+package {{basePackage}}.aggregate.store
+
+import {{basePackage}}.spec.domain.{{classname}}
+import {{basePackage}}.spec.dto.{{classname}}ReadPageQdo
+import {{basePackage}}.spec.dto.base.OffsetElements
+import java.util.*
 
 interface {{classname}}Store {
     fun save{{classname}}(domain: {{classname}}): {{classname}}

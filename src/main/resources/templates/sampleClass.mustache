@@ -1,8 +1,8 @@
 package {{basePackage}}.spec.sample
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import me.ricky.spec.domain.{{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}
-import me.ricky.spec.sample.base.DomainSample
+import {{basePackage}}.spec.domain.{{classname}}
+import {{basePackage}}.spec.sample.base.DomainSample
 import java.util.*
 
 object {{classname}}Sample : DomainSample<{{classname}}>() {

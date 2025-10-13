@@ -1,7 +1,14 @@
-package {{basePackage}}.storage.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}.store
+package {{basePackage}}.storage.store
 
 import org.springframework.stereotype.Repository
 import com.querydsl.jpa.impl.JPAQueryFactory
+import {{basePackage}}.aggregate.store.{{classname}}Store
+import {{basePackage}}.spec.domain.{{classname}}
+import {{basePackage}}.spec.dto.{{classname}}ReadPageQdo
+import {{basePackage}}.spec.dto.base.OffsetElements
+import {{basePackage}}.storage.entity.{{classname}}Entity
+import {{basePackage}}.storage.repository.{{classname}}Repository
+import {{basePackage}}.storage.shared.findByIdOrThrow
 import java.util.*
 
 @Repository

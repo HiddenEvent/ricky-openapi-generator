@@ -4,13 +4,14 @@
 ```shell
  .\gradlew clean generateOpenAPI --stacktrace
 ```
-3. [ricky-generator](build/ricky-generator) 디렉터리에 생성된 코드를 확인한다. 
-   - [service](build/ricky-generator/aggregate/service) - 서비스 로직
-   - [store](build/ricky-generator/aggregate/store) - 저장로직 인터페이스 구현
-   - [sample](build/ricky-generator/spec/sample) - sample 데이터 생성
-   - [entity](build/ricky-generator/storage/entity) - JPA Entity
-   - [store](build/ricky-generator/storage/store) - JpaRepository, 저장로직
-   - [test](build/ricky-generator/test) - 통합테스트 코드
+3. [ricky-generator](build/ricky-generator) 디렉터리에 생성된 코드를 확인한다.
+   - [1. Entity](build/ricky-generator/storage/entity) - JPA Entity
+   - [2. Repository](build/ricky-generator/storage/store/repository) JpaRepository
+   - [3. Sample](build/ricky-generator/spec/sample) - sample 데이터 생성
+   - [4. Store](build/ricky-generator/aggregate/store) - 저장로직 인터페이스 구현
+   - [5. JpaStore](build/ricky-generator/storage/store) - JPA 쿼리 로직
+   - [6. Service](build/ricky-generator/aggregate/service) - 서비스 로직
+   - [7. IT](build/ricky-generator/test) - 통합테스트 코드
 
 ## custom template 수정
 - 템플릿 파일 위치 : [templates](src/main/resources/templates) 

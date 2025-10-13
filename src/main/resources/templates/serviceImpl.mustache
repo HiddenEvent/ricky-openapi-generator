@@ -1,5 +1,9 @@
-package {{basePackage}}.aggregate.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}.service
+package {{basePackage}}.aggregate.service
 
+import {{basePackage}}.aggregate.store.{{classname}}Store
+import {{basePackage}}.spec.domain.{{classname}}
+import {{basePackage}}.spec.dto.{{classname}}ReadPageQdo
+import {{basePackage}}.spec.dto.base.OffsetElements
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
