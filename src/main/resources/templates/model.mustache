@@ -1,6 +1,7 @@
 {{#models}}
 {{#model}}
-{{^isFactory}}{{>dataClass}}{{/isFactory}}{{!
-}}{{#isFactory}}{{>sampleClass}}{{/isFactory}}
+{{#isSample}}{{>sampleClass}}{{/isSample}}{{!
+}}{{#isFixture}}{{>fixtureClass}}{{/isFixture}}{{!
+}}{{^isSample}}{{^isFixture}}{{>dataClass}}{{/isFixture}}{{/isSample}}
 {{/model}}
 {{/models}}

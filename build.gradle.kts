@@ -56,20 +56,19 @@ openApiGenerate {
 }
 
 
-// model 추가를 위해
-tasks.register<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("generateOpenAPIKotlin") {
+// sample 추가를 위해
+tasks.register<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("openApiGenerateSample") {
     generatorName.set("kotlin-spring")
     inputSpec.set(layout.buildDirectory.file("openapi-spec.json").get().asFile.absolutePath)
     outputDir.set(layout.buildDirectory.dir("openapi-kotlin").get().asFile.absolutePath)
     templateDir.set(layout.projectDirectory.dir("src/main/resources/templates").asFile.absolutePath)
     additionalProperties.set(
         mapOf(
-            "isFactory" to "true"
+            "isSample" to "true"
         )
     )
     configOptions.set(
         mapOf(
-            "apiSuffix" to "",
             "basePackage" to basePackageName,
             "apiPackage" to apiPackageName,
             "modelPackage" to modelPackageName,
@@ -80,9 +79,11 @@ tasks.register<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("gen
     )
 }
 
-tasks.register<Copy>("moveModelFiles") {
-    println("convert Sample.................")
-    dependsOn("generateOpenAPIKotlin")
+tasks.register<Copy>("moveSampleFiles") {
+    dependsOn("openApiGenerateSample")
+    doFirst {
+        println("convert Sample.................")  // ✅ 실행 단계에서 출력
+    }
     val sourceDir = "${layout.buildDirectory.get().asFile}/openapi-kotlin/src/main/kotlin/me/ricky/storage"
     val targetDir = "${layout.buildDirectory.get().asFile}/ricky-generator/spec/sample"
 
@@ -99,11 +100,57 @@ tasks.register<Copy>("moveModelFiles") {
     }
 }
 
+// fixture 추가를 위해
+tasks.register<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("openApiGenerateFixture") {
+    dependsOn("moveSampleFiles")
+    generatorName.set("kotlin-spring")
+    inputSpec.set(layout.buildDirectory.file("openapi-spec.json").get().asFile.absolutePath)
+    outputDir.set(layout.buildDirectory.dir("openapi-kotlin").get().asFile.absolutePath)
+    templateDir.set(layout.projectDirectory.dir("src/main/resources/templates").asFile.absolutePath)
+    additionalProperties.set(
+        mapOf(
+            "isFixture" to "true"
+        )
+    )
+    configOptions.set(
+        mapOf(
+            "basePackage" to basePackageName,
+            "apiPackage" to apiPackageName,
+            "modelPackage" to modelPackageName,
+            "useSpringBoot3" to "true",
+            "useTags" to "true",
+            "delegatePattern" to "true",
+        )
+    )
+}
+
+tasks.register<Copy>("moveFixtureFiles") {
+    dependsOn("openApiGenerateFixture")
+    doFirst {
+        println("convert Fixture.................")  // ✅ 실행 단계에서 출력
+    }
+    val sourceDir = "${layout.buildDirectory.get().asFile}/openapi-kotlin/src/main/kotlin/me/ricky/storage"
+    val targetDir = "${layout.buildDirectory.get().asFile}/ricky-generator/test/fixture"
+
+    from(sourceDir)
+    into(targetDir)
+    exclude("JwtToken.kt")
+    exclude("**/*Qdo.kt")
+    exclude("**/OffsetElements*")
+    exclude("**/ExceptionBody.kt")
+
+    eachFile {
+        this.name = this.name.replace(".kt", "Fixture.kt")
+        println(this.name)
+    }
+}
 
 // build.gradle.kts
 tasks.register("generateOpenAPI") {
-    dependsOn("downloadOpenApiSpec", "generateOpenAPIKotlin", "moveModelFiles")
-    finalizedBy("openApiGenerate")
+    dependsOn("downloadOpenApiSpec")
+//    dependsOn( "openApiGenerateSample", "moveSampleFiles")
+    dependsOn("openApiGenerateFixture", "moveFixtureFiles")
+//    finalizedBy("openApiGenerate")
 }
 
 kotlin {

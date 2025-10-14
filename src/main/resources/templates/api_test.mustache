@@ -1,8 +1,8 @@
-package {{package}}
+package {{package}}.api.test.integration.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import {{basePackage}}.rest.test.utils.PrettyLogger
-import {{basePackage}}.rest.test.utils.withJwt
+import {{basePackage}}.api.test.utils.PrettyLogger
+import {{basePackage}}.api.test.utils.withJwt
 import {{basePackage}}.storage.fixture.domain.users.UserFixture
 import org.hamcrest.text.MatchesPattern.matchesPattern
 import org.junit.jupiter.api.*

@@ -23,7 +23,9 @@ tasks.register("downloadOpenApiSpec") {
  * ServiceImpl 파일을 Service 파일로 복사 및 이름 변경하는 태스크
  */
 tasks.register<Copy>("moveServiceFiles") {
-    println("convert Service.................")
+    doFirst {
+        println("convert Service.................")
+    }
     val sourceDir = "${layout.buildDirectory.get().asFile}/openapi-kotlin/src/main/kotlin/${apiPackagePath}"
     val targetDir = "${layout.buildDirectory.get().asFile}/ricky-generator/aggregate/service"
 
@@ -53,7 +55,10 @@ tasks.register<Copy>("moveServiceFiles") {
  * Service 파일을 Store 파일로 복사 및 이름 변경하는 태스크 (Public, Admin 서비스 제외)
  */
 tasks.register<Copy>("moveStoreFiles") {
-    println("convert Store.................")
+    doFirst {
+        println("convert Store.................")
+    }
+
     val sourceDir = "${layout.buildDirectory.get().asFile}/openapi-kotlin/src/main/kotlin/${apiPackagePath}"
     val targetDir = "${layout.buildDirectory.get().asFile}/ricky-generator/aggregate/store"
 
@@ -80,7 +85,9 @@ tasks.register<Copy>("moveStoreFiles") {
  * Controller 파일을 JpaStore 파일로 복사 및 이름 변경하는 태스크 (Public, Admin 컨트롤러 제외)
  */
 tasks.register<Copy>("moveControllerFiles") {
-    println("convert JpaStore.................")
+    doFirst {
+        println("convert JpaStore.................")
+    }
     val sourceDir = "${layout.buildDirectory.get().asFile}/openapi-kotlin/src/main/kotlin/${apiPackagePath}"
     val targetDir = "${layout.buildDirectory.get().asFile}/ricky-generator/storage/store"
 
@@ -109,7 +116,9 @@ tasks.register<Copy>("moveControllerFiles") {
  * 모델 파일을 Entity 파일로 복사 및 이름 변경하는 태스크 (JwtToken, Qdo 등 특정 파일 제외)
  */
 tasks.register<Copy>("moveEntityFiles") {
-    println("convert Entity.................")
+    doFirst {
+        println("convert Entity.................")
+    }
     val sourceDir = "${layout.buildDirectory.get().asFile}/openapi-kotlin/src/main/kotlin/${modelPackagePath}"
     val targetDir = "${layout.buildDirectory.get().asFile}/ricky-generator/storage/entity"
 
@@ -131,7 +140,9 @@ tasks.register<Copy>("moveEntityFiles") {
  * Test 파일을 IT (통합 테스트) 파일로 복사 및 이름 변경하는 태스크
  */
 tasks.register<Copy>("moveTestFiles") {
-    println("convert Test.................")
+    doFirst {
+        println("convert Test.................")
+    }
     val sourceDir = "${layout.buildDirectory.get().asFile}/openapi-kotlin/src/test/kotlin/${apiPackagePath}"
     val targetDir = "${layout.buildDirectory.get().asFile}/ricky-generator/test"
 
@@ -149,7 +160,9 @@ tasks.register<Copy>("moveTestFiles") {
  * Delegate 파일을 Repository 파일로 복사 및 이름 변경하는 태스크 => Repository 1개만 있어도 됨
  */
 tasks.register<Copy>("moveRepositoryFiles") {
-    println("convert Repository.................")
+    doFirst {
+        println("convert Repository.................")
+    }
     val sourceDir = "${layout.buildDirectory.get().asFile}/openapi-kotlin/src/main/kotlin/${apiPackagePath}"
     val targetDir = "${layout.buildDirectory.get().asFile}/ricky-generator/storage/store/repository"
 

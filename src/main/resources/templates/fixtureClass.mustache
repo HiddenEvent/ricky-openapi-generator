@@ -1,0 +1,19 @@
+package {{basePackage}}.storage.fixture.domain.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}
+
+import {{basePackage}}.aggregate.store.{{classname}}Store
+import {{basePackage}}.spec.domain.{{classname}}
+import {{basePackage}}.spec.sample.{{classname}}Sample
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Component
+
+@Component
+class {{classname}}Fixture @Autowired constructor(
+    private val {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}Store: {{classname}}Store,
+) {
+    lateinit var DUMMY_{{#lambda.uppercase}}{{classname}}{{/lambda.uppercase}}_LIST: List<{{classname}}>
+
+    fun init() {
+        println("======================================== {{classname}}Fixture init ========================================")
+        DUMMY_{{#lambda.uppercase}}{{classname}}{{/lambda.uppercase}}_LIST = {{classname}}Sample.newList(10).map { {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}Store.save{{classname}}(it) }  // 테스트 10 데이터 생성
+    }
+}
