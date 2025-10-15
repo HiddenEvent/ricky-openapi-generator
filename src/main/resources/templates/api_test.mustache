@@ -1,4 +1,4 @@
-package {{package}}.api.test.integration.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}
+package {{package}}.test.integration.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import {{basePackage}}.api.test.utils.PrettyLogger
@@ -16,7 +16,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
-@DisplayName("{{classname}} 통합 테스트")
+@DisplayName("{{#lambda.kebabcase}}{{classname}}{{/lambda.kebabcase}} 통합 테스트")
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
 @AutoConfigureMockMvc
@@ -25,7 +25,7 @@ class {{classname}}IT {
     private lateinit var userFixture: UserFixture
 
 //    @Autowired
-//    private lateinit var {{classname}}Fixture: TODO("테스트용 Fixture 클래스 생성")
+//    private lateinit var Fixture: {{classname}}Fixture // TODO("테스트용 Fixture 클래스 생성")
 
     @Autowired
     private lateinit var mockMvc: MockMvc
@@ -41,18 +41,18 @@ class {{classname}}IT {
     fun {{operationId}}() {
         //given
         {{#allParams}}
-//        val {{{paramName}}}: {{>optionalDataType}} = TODO("테스트 Parameter 생성")
+//        val {{{paramName}}}: {{>optionalDataType}} = {{>optionalDataType}}().apply { } // TODO: 테스트 Parameter 생성
         {{/allParams}}
 
         //when
         val resultAction: ResultActions = mockMvc.perform(
             {{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}("{{path}}")
-                .withJwt(userFixture.ADMIN_TOKEN) // 인증 필요시
+                //.withJwt(userFixture.ADMIN_TOKEN) // TODO: 인증 필요 시
 {{!           }}{{#bodyParam.isBodyParam}}{{!
 }}                .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(TODO()))
 {{!           }}{{/bodyParam.isBodyParam}}{{!
-}}                //.params(qdo.toMultiValueMap()) // GET: Params 전송 시 사용
+}}                //.params(qdo.toMultiValueMap()) // TODO: GET 요청 시 사용
         ).andDo(PrettyLogger())
 
         //then

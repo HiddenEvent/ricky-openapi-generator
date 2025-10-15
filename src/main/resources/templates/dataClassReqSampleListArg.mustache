@@ -1,7 +1,7 @@
                 {{name}} = {{!
 }}{{#isEnum}}{{classname}}.{{nameInPascalCase}},{{/isEnum}}{{!
 }}{{#isUuid}}{{#example}}UUID.fromString("{{example}}"){{/example}}{{^example}}UUID.fromString("00000000-0000-0000-0000-000000000000"){{/example}},{{/isUuid}}{{!
-}}{{^isUuid}}{{^isEnum}}{{#isString}}{{#example}}"{{example}}"{{/example}}{{^example}}"{{{title}}}-${it + 1}}"{{/example}},{{/isString}}{{/isEnum}}{{/isUuid}}{{!
+}}{{^isUuid}}{{^isEnum}}{{#isString}}{{#example}}"{{example}}"{{/example}}{{^example}}"{{{title}}}-${it + 1}"{{/example}},{{/isString}}{{/isEnum}}{{/isUuid}}{{!
 }}{{#isBoolean}}{{#example}}{{example}}{{/example}}{{^example}}true{{/example}},{{/isBoolean}}{{!
 }}{{#isNumeric}}{{#example}}{{example}}{{/example}}{{^example}}0{{/example}},{{/isNumeric}}{{!
 }}{{#isInteger}}{{#example}}{{example}}{{/example}}{{^example}}0{{/example}},{{/isInteger}}{{!

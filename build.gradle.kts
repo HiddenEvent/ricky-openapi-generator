@@ -148,9 +148,9 @@ tasks.register<Copy>("moveFixtureFiles") {
 // build.gradle.kts
 tasks.register("generateOpenAPI") {
     dependsOn("downloadOpenApiSpec")
-//    dependsOn( "openApiGenerateSample", "moveSampleFiles")
+    dependsOn( "openApiGenerateSample", "moveSampleFiles")
     dependsOn("openApiGenerateFixture", "moveFixtureFiles")
-//    finalizedBy("openApiGenerate")
+    finalizedBy("openApiGenerate")
 }
 
 kotlin {

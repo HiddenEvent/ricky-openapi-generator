@@ -11,7 +11,8 @@
    - [4. Store](build/ricky-generator/aggregate/store) - 저장로직 인터페이스 구현
    - [5. JpaStore](build/ricky-generator/storage/store) - JPA 쿼리 로직
    - [6. Service](build/ricky-generator/aggregate/service) - 서비스 로직
-   - [7. IT](build/ricky-generator/test) - 통합테스트 코드
+   - [7. Fixture](build/ricky-generator/test/fixture) - 테스트 데이터 생성 로직
+   - [8. IT](build/ricky-generator/test) - 통합테스트 코드
 
 ## custom template 수정
 - 템플릿 파일 위치 : [templates](src/main/resources/templates) 
