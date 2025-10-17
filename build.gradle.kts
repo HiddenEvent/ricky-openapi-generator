@@ -33,7 +33,7 @@ val modelPackageName by extra("${basePackageName}.storage")
 // 두번째
 openApiGenerate {
     generatorName.set("kotlin-spring")
-    inputSpec.set(layout.buildDirectory.file("openapi-spec.json").get().asFile.absolutePath)
+    inputSpec.set(layout.buildDirectory.file("openapi-spec.json").map { it.asFile.toURI().toString() })
     outputDir.set(layout.buildDirectory.dir("openapi-kotlin").get().asFile.absolutePath)
 //    apiFilesConstrainedTo.set(listOf("Board"))
 //    modelFilesConstrainedTo.set(listOf("User", "Board", "BoardComment"))
@@ -55,11 +55,12 @@ openApiGenerate {
     )
 }
 
-
 // sample 추가를 위해
 tasks.register<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("openApiGenerateSample") {
     generatorName.set("kotlin-spring")
-    inputSpec.set(layout.buildDirectory.file("openapi-spec.json").get().asFile.absolutePath)
+
+    // ✅ 윈도우 경로 → URI 문자열 변환
+    inputSpec.set(layout.buildDirectory.file("openapi-spec.json").map { it.asFile.toURI().toString() })
     outputDir.set(layout.buildDirectory.dir("openapi-kotlin").get().asFile.absolutePath)
     templateDir.set(layout.projectDirectory.dir("src/main/resources/templates").asFile.absolutePath)
     additionalProperties.set(
@@ -104,7 +105,7 @@ tasks.register<Copy>("moveSampleFiles") {
 tasks.register<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("openApiGenerateFixture") {
     dependsOn("moveSampleFiles")
     generatorName.set("kotlin-spring")
-    inputSpec.set(layout.buildDirectory.file("openapi-spec.json").get().asFile.absolutePath)
+    inputSpec.set(layout.buildDirectory.file("openapi-spec.json").map { it.asFile.toURI().toString() })
     outputDir.set(layout.buildDirectory.dir("openapi-kotlin").get().asFile.absolutePath)
     templateDir.set(layout.projectDirectory.dir("src/main/resources/templates").asFile.absolutePath)
     additionalProperties.set(
